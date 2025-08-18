@@ -1,0 +1,7 @@
+echo "let's check the code! =^ . ｡.^="
+
+pnpm lint-staged
+
+pnpm run tsc
+
+echo "✅ Pre-commit checks completed!"
