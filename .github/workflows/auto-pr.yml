@@ -48,6 +48,7 @@ jobs:
           echo "EOF" >> $GITHUB_ENV
 
       - name: Get Issue Title
+        if: steps.check_pr.outputs.exists == 'false'  
         id: get-issue-title
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -68,6 +69,7 @@ jobs:
           echo "title=$ISSUE_TITLE" >> $GITHUB_OUTPUT
 
       - name: Generate PR Body with AI
+        if: steps.check_pr.outputs.exists == 'false'
         id: generate-body
         uses: actions/github-script@v6
         with:
@@ -227,6 +229,7 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
       - name: Create Pull Request
+        if: steps.check_pr.outputs.exists == 'false'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_BODY: ${{ steps.generate-body.outputs.body }}
