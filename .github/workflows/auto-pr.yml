@@ -1,11 +1,8 @@
 name: Auto Generate PR with Template
 
 on:
-  push:
-    branches:
-      - 'feat#*'
-      - 'fix#*'
-      - 'refactor#*'
+  pull_request:
+    types: [opened, ready_for_review]
 
 jobs:
   create-pr:
