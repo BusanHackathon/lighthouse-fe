@@ -2,6 +2,8 @@ echo "let's check the code! =^ . ｡.^="
 
 pnpm lint-staged
 
+echo "🎉 Formatting Test completed!"
+
 pnpm run tsc
 
-echo "✅ Pre-commit checks completed!"
+echo "✅ Type Check completed!"
