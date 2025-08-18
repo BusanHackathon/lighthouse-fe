@@ -13,6 +13,10 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --height-header: var(--layout-header-height);
+  --height-footer: var(--layout-footer-height);
+  --padding-header: var(--layout-header-height);
+  --margin-footer: var(--layout-footer-height);
   --font-family: var(--font-pretendard);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -52,6 +56,8 @@
 }
 
 :root {
+  --layout-header-height: 3.625rem;
+  --layout-footer-height: 5.5rem;
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -125,6 +131,6 @@
     @apply scrollbar-hide border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground font-pretendard;
+    @apply bg-background font-pretendard text-foreground;
   }
 }
