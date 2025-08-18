@@ -20,7 +20,21 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Check if PR already exists
+        id: check_pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+            if gh pr view "${{ github.ref_name }}" --json number >/dev/null 2>&1; then
+              echo "PR already exists for this branch. Skipping."
+              echo "exists=true" >> $GITHUB_OUTPUT
+            else
+              echo "No PR found. Proceeding to create one."
+              echo "exists=false" >> $GITHUB_OUTPUT
+            fi
+
       - name: Get Commit Messages and PR Template
+        if: steps.check_pr.outputs.exists == 'false'
         id: get-content
         run: |
           COMMITS=$(git log origin/main..HEAD --pretty=format:"- %s")
