@@ -19,13 +19,11 @@ jobs:
       - name: Get Commit Messages and PR Template
         id: get-content
         run: |
-          # 1. main 브랜치와 현재 브랜치의 차이점에서 커밋 메시지만 추출
           COMMITS=$(git log origin/main..HEAD --pretty=format:"- %s")
           echo "commits<<EOF" >> $GITHUB_ENV
           echo "$COMMITS" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-          # 2. PR 템플릿 파일 내용 읽기
           TEMPLATE=$(cat .github/pull_request_template.md)
           echo "template<<EOF" >> $GITHUB_ENV
           echo "$TEMPLATE" >> $GITHUB_ENV
@@ -35,7 +33,6 @@ jobs:
         id: generate-body
         uses: actions/github-script@v6
         with:
-          # ✅ Gemini API 키를 secret에서 가져와야 해
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const commitMessages = process.env.commits;
@@ -60,7 +57,6 @@ jobs:
               ${commitMessages}
             `;
 
-            // ✅ fetch를 사용해서 Gemini API를 직접 호출하는 코드로 수정!
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${geminiApiKey}`;
             const response = await fetch(apiUrl, {
               method: 'POST',
@@ -82,16 +78,15 @@ jobs:
             const aiResponse = result.candidates[0].content.parts[0].text;
             core.setOutput('body', aiResponse);
         env:
-          # ✅ GitHub 레포지토리 Secret에 GEMINI_API_KEY를 등록해야 해
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
       - name: Create Pull Request
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_BODY: ${{ steps.generate-body.outputs.body }}
         run: |
-          # GitHub CLI를 사용해서 PR 생성
           gh pr create \
             --base main \
             --head ${{ github.ref_name }} \
             --title "feat: ${{ github.ref_name }}" \
-            --body "${{ steps.generate-body.outputs.body }}"
+            --body "$PR_BODY"
