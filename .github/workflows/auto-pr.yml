@@ -61,7 +61,7 @@ jobs:
             `;
 
             // ✅ fetch를 사용해서 Gemini API를 직접 호출하는 코드로 수정!
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${geminiApiKey}`;
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${geminiApiKey}`;
             const response = await fetch(apiUrl, {
               method: 'POST',
               headers: {
