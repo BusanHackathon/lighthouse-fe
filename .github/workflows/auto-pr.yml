@@ -57,33 +57,96 @@ jobs:
               ${commitMessages}
             `;
 
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${geminiApiKey}`;
-            const response = await fetch(apiUrl, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                contents: [{ parts: [{ text: prompt }] }],
-              }),
-            });
+            // Gemini 2.5 Pro 미리보기 버전 사용 (최고 성능)
+            // 대안 1: gemini-2.5-flash-preview-05-20 (더 빠르고 비용 효율적)
+            // 대안 2: gemini-2.0-flash (안정적이고 빠름)
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro-preview-06-05:generateContent?key=${geminiApiKey}`;
+            
+            try {
+              const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  contents: [{ parts: [{ text: prompt }] }],
+                  generationConfig: {
+                    temperature: 0.7,
+                    topK: 1,
+                    topP: 1,
+                    maxOutputTokens: 2048,
+                  },
+                  safetySettings: [
+                    {
+                      category: "HARM_CATEGORY_HARASSMENT",
+                      threshold: "BLOCK_MEDIUM_AND_ABOVE"
+                    },
+                    {
+                      category: "HARM_CATEGORY_HATE_SPEECH",
+                      threshold: "BLOCK_MEDIUM_AND_ABOVE"
+                    },
+                    {
+                      category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                      threshold: "BLOCK_MEDIUM_AND_ABOVE"
+                    },
+                    {
+                      category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+                      threshold: "BLOCK_MEDIUM_AND_ABOVE"
+                    }
+                  ]
+                }),
+              });
 
-            if (!response.ok) {
-              const errorText = await response.text();
-              core.setFailed(`Gemini API request failed: ${response.status} ${errorText}`);
-              return;
-            }
+              if (!response.ok) {
+                const errorText = await response.text();
+                core.setFailed(`Gemini API request failed: ${response.status} ${response.statusText}\nError: ${errorText}`);
+                return;
+              }
 
-            const result = await response.json();
-
-            if (!result.candidates || result.candidates.length === 0) {
-              core.setFailed('Gemini API returned no candidates. This might be due to safety settings.');
+              const result = await response.json();
+              
+              // 전체 응답 로깅 (디버깅용)
               console.log('Full Gemini Response:', JSON.stringify(result, null, 2));
+
+              // 안전한 속성 접근을 위한 검증
+              if (!result) {
+                core.setFailed('Gemini API returned null or undefined result');
+                return;
+              }
+
+              // 에러 응답 처리
+              if (result.error) {
+                core.setFailed(`Gemini API returned error: ${JSON.stringify(result.error)}`);
+                return;
+              }
+
+              // candidates 배열 검증
+              if (!result.candidates || !Array.isArray(result.candidates) || result.candidates.length === 0) {
+                core.setFailed(`Gemini API returned no candidates. This might be due to safety settings or content filtering.\nFull response: ${JSON.stringify(result)}`);
+                return;
+              }
+
+              // 첫 번째 후보의 구조 검증
+              const candidate = result.candidates[0];
+              if (!candidate || !candidate.content || !candidate.content.parts || candidate.content.parts.length === 0) {
+                core.setFailed(`Invalid candidate structure in Gemini response.\nCandidate: ${JSON.stringify(candidate)}`);
+                return;
+              }
+
+              // 안전하게 텍스트 추출
+              const aiResponse = candidate.content.parts[0].text;
+              if (!aiResponse || typeof aiResponse !== 'string') {
+                core.setFailed(`Invalid or empty text response from Gemini.\nParts: ${JSON.stringify(candidate.content.parts)}`);
+                return;
+              }
+
+              console.log('Generated PR body:', aiResponse);
+              core.setOutput('body', aiResponse);
+
+            } catch (error) {
+              core.setFailed(`Error calling Gemini API: ${error.message}\nStack: ${error.stack}`);
               return;
             }
-
-            const aiResponse = result.candidates[0].content.parts[0].text;
-            core.setOutput('body', aiResponse);
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
