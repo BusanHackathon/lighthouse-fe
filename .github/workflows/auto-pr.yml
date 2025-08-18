@@ -14,7 +14,6 @@ jobs:
       pull-requests: write
       issues: read
 
-
     # 브랜치가 새로 생성되어 처음 push될 때만 true가 되는 조건
     if: github.event.before == '0000000000000000000000000000000000000000'
 
