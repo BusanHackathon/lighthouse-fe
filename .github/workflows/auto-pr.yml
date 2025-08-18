@@ -1,12 +1,17 @@
 name: Auto Generate PR with Template
 
 on:
-  pull_request:
-    types: [opened, ready_for_review]
-
+  push:
+    branches:
+      - 'feat#*'
+      - 'fix#*'
+      - 'refactor#*'
+    
 jobs:
   create-pr:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
