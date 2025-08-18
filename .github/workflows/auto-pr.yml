@@ -75,6 +75,13 @@ jobs:
             }
 
             const result = await response.json();
+
+            if (!result.candidates || result.candidates.length === 0) {
+              core.setFailed('Gemini API returned no candidates. This might be due to safety settings.');
+              console.log('Full Gemini Response:', JSON.stringify(result, null, 2));
+              return;
+            }
+
             const aiResponse = result.candidates[0].content.parts[0].text;
             core.setOutput('body', aiResponse);
         env:
