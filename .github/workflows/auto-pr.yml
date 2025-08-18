@@ -33,8 +33,8 @@ jobs:
           echo "$TEMPLATE" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-      - name: Get Issue Title
-        id: get-issue-title
+      - name: Get Issue Info
+        id: get-issue-info
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -46,12 +46,15 @@ jobs:
             echo "브랜치 이름에서 이슈 번호를 찾을 수 없습니다."
             # 이슈 번호가 없으면, 브랜치 이름을 기반으로 제목 생성
             ISSUE_TITLE="${{ github.ref_name }}"
+            ISSUE_NUMBER_OUTPUT="N/A"
           else
             # GitHub CLI를 사용해서 이슈 제목을 가져와
             ISSUE_TITLE=$(gh issue view "$ISSUE_NUMBER" --json title -q ".title")
+            ISSUE_NUMBER_OUTPUT="$ISSUE_NUMBER"
           fi
           
           echo "title=$ISSUE_TITLE" >> $GITHUB_OUTPUT
+          echo "issue_number=$ISSUE_NUMBER_OUTPUT" >> $GITHUB_OUTPUT
 
       - name: Generate PR Body with AI
         id: generate-body
@@ -206,9 +209,19 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_BODY: ${{ steps.generate-body.outputs.body }}
+          ISSUE_NUMBER: ${{ steps.get-issue-info.outputs.number }}
         run: |
+          if [ "$ISSUE_NUMBER" != "N/A" ]; then
+            # "Related Issues" 섹션을 찾아서 이슈 번호를 추가
+            FINAL_BODY=$(echo "$PR_BODY" | sed "s|## #️⃣ 관련 이슈 (Related Issues)|## #️⃣ 관련 이슈 (Related Issues)\n\n- Closes #${ISSUE_NUMBER}|")
+          else
+            FINAL_BODY="$PR_BODY"
+          fi
+
+          echo "$FINAL_BODY" > pr_body.md
+
           gh pr create \
             --base main \
             --head ${{ github.ref_name }} \
             --title "feat: ${{ github.ref_name }}" \
-            --body "$PR_BODY"
+            --body-file pr_body.md
