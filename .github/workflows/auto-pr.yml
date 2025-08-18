@@ -83,7 +83,7 @@ jobs:
               6.  Leave '## 📸 스크린샷 (Screenshots)' and '## #️⃣ 관련 이슈 (Related Issues)' sections as they are for the user to fill in.
 
               The final output must be only the completed markdown text, perfectly matching the provided template structure. Do not add any extra text or wrappers.
-              
+
               --- PR 템플릿 ---
               ${prTemplate}
 
@@ -94,7 +94,7 @@ jobs:
             // 무료 티어에서 확실히 사용 가능한 모델: Gemini 2.0 Flash
             // - RPM: 15, TPM: 1,000,000, RPD: 200 
             // - 안정적이고 빠름, 무료 할당량 보장
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiApiKey}`;
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`;
             
             // 재시도 로직 구현
             const maxRetries = 3;
