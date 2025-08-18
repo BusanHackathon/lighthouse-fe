@@ -6,4 +6,6 @@ export const ROUTER_PATH = {
   LOGIN: '/login',
   RISK_DIAGNOSTICS: '/risk',
   RELIABILITY_DIAGNOSTICS: '/reliability',
+  REALTOR_LOGIN: '/realtor/login',
+  REALTOR_SIGNUP: '/realtor/signup',
 } as const;
