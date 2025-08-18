@@ -1,12 +1,11 @@
 import { RealtorPage } from '@/pages';
-import { ROUTER_PATH } from '@/shared';
 import { Layout } from '@/widgets';
 
 import { ROUTE_CONFIG } from '../config';
 
 export const realtorRoutes = [
   {
-    path: ROUTER_PATH.REALTOR,
+    path: ROUTE_CONFIG.REALTOR.path,
     element: <Layout />,
     children: [
       {

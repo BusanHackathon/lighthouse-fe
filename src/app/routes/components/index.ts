@@ -1,3 +1,3 @@
 export * from './auth.routes';
 export * from './common.routes';
-export * from './realtor.route';
+export * from './realtor.routes';
