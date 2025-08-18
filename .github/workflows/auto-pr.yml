@@ -1,0 +1,67 @@
+name: Auto Generate PR with Template
+
+on:
+  push:
+    branches:
+      - 'feat#*'
+      - 'fix#*'
+      - 'refactor#*'
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get Commit Messages and PR Template
+        id: get-content
+        run: |
+          # 1. main 브랜치와 현재 브랜치의 차이점에서 커밋 메시지만 추출
+          COMMITS=$(git log origin/main..HEAD --pretty=format:"- %s")
+          echo "commits<<EOF" >> $GITHUB_ENV
+          echo "$COMMITS" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+          # 2. PR 템플릿 파일 내용 읽기
+          TEMPLATE=$(cat .github/pull_request_template.md)
+          echo "template<<EOF" >> $GITHUB_ENV
+          echo "$TEMPLATE" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Generate PR Body with AI
+        id: generate-body
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const commitMessages = process.env.commits;
+            const prTemplate = process.env.template;
+            
+            const prompt = `
+              다음 Pull Request 템플릿의 각 항목을, 아래 제공된 커밋 메시지들을 바탕으로 채워줘.
+              특히 '요약', '주요 변경 사항', '상세 구현 내용'을 중심으로 작성하고,
+              '트러블 슈팅'이나 '알려진 이슈'는 커밋 내용에 근거가 없으면 비워둬도 좋아.
+              최종 결과는 완성된 마크다운 텍스트만 반환해줘.
+
+              --- PR 템플릿 ---
+              ${prTemplate}
+
+              --- 커밋 메시지 목록 ---
+              ${commitMessages}
+            `;
+
+            const aiResponse = await callGeminiAPI(prompt);
+            core.setOutput('body', aiResponse);
+
+      - name: Create Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # GitHub CLI를 사용해서 PR 생성
+          gh pr create \
+            --base main \
+            --head ${{ github.ref_name }} \
+            --title "feat: ${{ github.ref_name }}" \
+            --body "${{ steps.generate-body.outputs.body }}"
