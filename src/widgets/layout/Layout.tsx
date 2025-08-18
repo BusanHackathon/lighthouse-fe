@@ -1,9 +1,9 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useMatches } from 'react-router-dom';
 
 import { Footer, Header, type LayoutToFooterMap, type LayoutType, ScrollToTop } from '@/shared';
 
-type Props = {
-  layoutType: keyof LayoutType;
+type PageHandle = {
+  layout?: keyof LayoutType;
 };
 
 const layoutToFooterMap: LayoutToFooterMap = {
@@ -12,15 +12,24 @@ const layoutToFooterMap: LayoutToFooterMap = {
   Realtor: 'Main',
 } as const;
 
-export const Layout = ({ layoutType }: Props) => {
+export const Layout = () => {
+  const matches = useMatches();
+
+  const handle = matches[matches.length - 1]?.handle as PageHandle | undefined;
+  const layoutType = handle?.layout || 'Main'; // 기본값으로 'Main' 사용
+
   return (
-    <div className='relative flex w-full flex-col'>
-      <ScrollToTop />
+    <div className='w-full'>
       <Header type={layoutType} />
-      <div className='absolute top-0 left-0 flex w-full flex-1 flex-col'>
-        <Outlet />
-      </div>
-      <Footer type={layoutToFooterMap[layoutType]} />
+      <main className='pt-header'>
+        <div className='flex flex-1 flex-col'>
+          <div className='mb-footer flex-grow'>
+            <ScrollToTop />
+            <Outlet />
+          </div>
+          <Footer type={layoutToFooterMap[layoutType]} />
+        </div>
+      </main>
     </div>
   );
 };
