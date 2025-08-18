@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
+      issues: read
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -30,6 +32,26 @@ jobs:
           echo "template<<EOF" >> $GITHUB_ENV
           echo "$TEMPLATE" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
+
+          - name: Get Issue Title
+          id: get-issue-title
+          env:
+            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          run: |
+            BRANCH_NAME="${{ github.ref_name }}"
+            # 'feat#123-description' 같은 브랜치 이름에서 숫자 '123'만 추출
+            ISSUE_NUMBER=$(echo "$BRANCH_NAME" | grep -o -E '#[0-9]+' | sed 's/#//')
+            
+            if [ -z "$ISSUE_NUMBER" ]; then
+              echo "브랜치 이름에서 이슈 번호를 찾을 수 없습니다."
+              # 이슈 번호가 없으면, 브랜치 이름을 기반으로 제목 생성
+              ISSUE_TITLE="${{ github.ref_name }}"
+            else
+              # GitHub CLI를 사용해서 이슈 제목을 가져와
+              ISSUE_TITLE=$(gh issue view "$ISSUE_NUMBER" --json title -q ".title")
+            fi
+            
+            echo "title=$ISSUE_TITLE" >> $GITHUB_OUTPUT
 
       - name: Generate PR Body with AI
         id: generate-body
@@ -154,6 +176,7 @@ jobs:
                   throw new Error(`Invalid or empty text response from Gemini.\nParts: ${JSON.stringify(candidate.content.parts)}`);
                 }
 
+                aiResponse = aiResponse.replace(/^```markdown\n/, '').replace(/\n```$/, '');
                 console.log('Generated PR body:', aiResponse);
                 core.setOutput('body', aiResponse);
                 return; // 성공 시 함수 종료
