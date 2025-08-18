@@ -14,16 +14,27 @@ jobs:
       pull-requests: write
       issues: read
 
-    # 브랜치가 새로 생성되어 처음 push될 때만 true가 되는 조건
-    if: github.event.before == '0000000000000000000000000000000000000000'
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
+      - name: Check if PR already exists
+        id: check_pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+            if gh pr view "${{ github.ref_name }}" --json number >/dev/null 2>&1; then
+              echo "PR already exists for this branch. Skipping."
+              echo "exists=true" >> $GITHUB_OUTPUT
+            else
+              echo "No PR found. Proceeding to create one."
+              echo "exists=false" >> $GITHUB_OUTPUT
+            fi
+
       - name: Get Commit Messages and PR Template
+        if: steps.check_pr.outputs.exists == 'false'
         id: get-content
         run: |
           COMMITS=$(git log origin/main..HEAD --pretty=format:"- %s")
@@ -37,6 +48,7 @@ jobs:
           echo "EOF" >> $GITHUB_ENV
 
       - name: Get Issue Title
+        if: steps.check_pr.outputs.exists == 'false'  
         id: get-issue-title
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -57,6 +69,7 @@ jobs:
           echo "title=$ISSUE_TITLE" >> $GITHUB_OUTPUT
 
       - name: Generate PR Body with AI
+        if: steps.check_pr.outputs.exists == 'false'
         id: generate-body
         uses: actions/github-script@v6
         with:
@@ -213,6 +226,7 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
       - name: Create Pull Request
+        if: steps.check_pr.outputs.exists == 'false'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_BODY: ${{ steps.generate-body.outputs.body }}
