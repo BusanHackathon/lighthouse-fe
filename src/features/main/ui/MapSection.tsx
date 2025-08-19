@@ -1,24 +1,16 @@
 import { Button } from '@/shared';
 
+import { HOUSE_TYPES } from '../constants';
+
 export const MapSection = () => {
   return (
     <div className='flex w-1/2 flex-col border-l border-gray-200'>
       <div className='flex gap-3 border-b border-gray-200 p-4'>
-        <Button variant='secondary' size='sm'>
-          원룸
-        </Button>
-        <Button variant='secondary' size='sm'>
-          투룸
-        </Button>
-        <Button variant='secondary' size='sm'>
-          오피스텔
-        </Button>
-        <Button variant='secondary' size='sm'>
-          아파트
-        </Button>
-        <Button variant='secondary' size='sm'>
-          복층
-        </Button>
+        {HOUSE_TYPES.map((type) => (
+          <Button key={type} variant='secondary' size='sm'>
+            {type}
+          </Button>
+        ))}
       </div>
 
       {/* TODO: 추후 지도 (카카오맵, 네이버 지도, 구글 맵 등) 컴포넌트 추가 */}
