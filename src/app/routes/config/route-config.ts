@@ -15,10 +15,6 @@ export const ROUTE_CONFIG: Record<string, RouteConfig> = {
     path: ROUTER_PATH.LOGIN,
     layout: 'Auth',
   },
-  SIGNUP: {
-    path: ROUTER_PATH.SIGNUP,
-    layout: 'Auth',
-  },
   RISK_DIAGNOSTICS: {
     path: ROUTER_PATH.RISK_DIAGNOSTICS,
     layout: 'Main',
@@ -31,8 +27,8 @@ export const ROUTE_CONFIG: Record<string, RouteConfig> = {
     path: ROUTER_PATH.REALTOR_LOGIN,
     layout: 'Auth',
   },
-  REALTOR_SIGNUP: {
-    path: ROUTER_PATH.REALTOR_SIGNUP,
+  REALTOR_CERTIFICATION: {
+    path: ROUTER_PATH.REALTOR_CERTIFICATION,
     layout: 'Auth',
   },
   REALTOR: {

@@ -1,4 +1,4 @@
-import { LoginPage, RealtorLoginPage, RealtorSignupPage, SignupPage } from '@/pages';
+import { LoginPage, RealtorCertificationPage, RealtorLoginPage } from '@/pages';
 import { ROUTER_PATH } from '@/shared';
 import { Layout } from '@/widgets';
 
@@ -14,11 +14,6 @@ export const authRoutes = [
         element: <LoginPage />,
         handle: { layout: ROUTE_CONFIG.LOGIN.layout },
       },
-      {
-        path: ROUTE_CONFIG.SIGNUP.path,
-        element: <SignupPage />,
-        handle: { layout: ROUTE_CONFIG.SIGNUP.layout },
-      },
     ],
   },
   {
@@ -31,9 +26,9 @@ export const authRoutes = [
         handle: { layout: ROUTE_CONFIG.REALTOR_LOGIN.layout },
       },
       {
-        path: ROUTE_CONFIG.REALTOR_SIGNUP.path,
-        element: <RealtorSignupPage />,
-        handle: { layout: ROUTE_CONFIG.REALTOR_SIGNUP.layout },
+        path: ROUTE_CONFIG.REALTOR_CERTIFICATION.path,
+        element: <RealtorCertificationPage />,
+        handle: { layout: ROUTE_CONFIG.REALTOR_CERTIFICATION.layout },
       },
     ],
   },
