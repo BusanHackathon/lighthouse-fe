@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 
-import Logo from '../../../_assets/logo.png';
+import Logo from '../../../_assets/logo.webp';
 import { ROUTER_PATH } from '../../../constants';
 
 export const LogoSection = () => {
