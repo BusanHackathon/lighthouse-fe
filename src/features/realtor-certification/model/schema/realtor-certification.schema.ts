@@ -4,7 +4,7 @@ import { ACCEPTED_FILE_TYPES, MAX_FILE_SIZE_10MB } from '../../constants';
 
 export const realtorCertificationSchema = z.object({
   certificateFile: z
-    .instanceof(File)
+    .instanceof(File, { message: '인증서 파일을 업로드해주세요.' })
     .refine((file) => file.size <= MAX_FILE_SIZE_10MB, '파일 크기는 10MB 이하여야 합니다.')
     .refine(
       (file) => ACCEPTED_FILE_TYPES.includes(file.type),
