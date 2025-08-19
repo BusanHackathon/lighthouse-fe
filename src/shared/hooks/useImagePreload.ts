@@ -14,6 +14,13 @@ export const useImagePreload = (src: string, options: UseImagePreloadOptions = {
 
     const img = new Image();
 
+    // 이미지가 이미 캐시에 있는 경우 즉시 로드 완료 처리
+    if (img.complete) {
+      setIsLoaded(true);
+      options.onLoad?.();
+      return;
+    }
+
     img.onload = () => {
       setIsLoaded(true);
       options.onLoad?.();
