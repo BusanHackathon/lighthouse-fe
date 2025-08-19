@@ -13,6 +13,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --color-kakao: var(--kakao-color);
+  --color-naver: var(--naver-color);
   --height-header: var(--layout-header-height);
   --height-footer: var(--layout-footer-height);
   --padding-header: var(--layout-header-height);
@@ -62,6 +64,8 @@
 }
 
 :root {
+  --kakao-color: #fee502;
+  --naver-color: #04c73c;
   --lighthouse-button-secondary: #f2f4f6;
   --lighthouse-button-secondary-text: #333d4b;
   --lighthouse-button-secondary-hover: #ebefff;
