@@ -56,9 +56,15 @@
   --color-lighthouse-blue: var(--lighthouse-blue);
   --color-lighthouse-blue-shadow: var(--lighthouse-blue-shadow);
   --color-input-placeholder-gray: var(--input-placeholder-gray);
+  --color-lighthouse-button-secondary: var(--lighthouse-button-secondary);
+  --color-lighthouse-button-secondary-text: var(--lighthouse-button-secondary-text);
+  --color-lighthouse-button-secondary-hover: var(--lighthouse-button-secondary-hover);
 }
 
 :root {
+  --lighthouse-button-secondary: #f2f4f6;
+  --lighthouse-button-secondary-text: #333d4b;
+  --lighthouse-button-secondary-hover: #ebefff;
   --lighthouse-blue: #617ee8;
   --lighthouse-blue-shadow: #617ee866;
   --input-placeholder-gray: #8a8a8a;
