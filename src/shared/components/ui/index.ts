@@ -5,3 +5,4 @@ export * from './sonner';
 export * from './form';
 export * from './label';
 export * from './avatar';
+export * from './radio-group';
