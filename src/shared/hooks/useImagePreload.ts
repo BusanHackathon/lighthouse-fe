@@ -9,27 +9,28 @@ export const useImagePreload = (src: string, options: UseImagePreloadOptions = {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
+  const { onLoad, onError } = options;
+
   useEffect(() => {
     if (!src) return;
 
     const img = new Image();
 
-    // 이미지가 이미 캐시에 있는 경우 즉시 로드 완료 처리
     if (img.complete) {
       setIsLoaded(true);
-      options.onLoad?.();
+      onLoad?.();
       return;
     }
 
     img.onload = () => {
       setIsLoaded(true);
-      options.onLoad?.();
+      onLoad?.();
     };
 
     img.onerror = () => {
       const error = new Error(`이미지 로드 실패: ${src}`);
       setError(error);
-      options.onError?.(error);
+      onError?.(error);
     };
 
     img.src = src;
@@ -38,7 +39,7 @@ export const useImagePreload = (src: string, options: UseImagePreloadOptions = {
       img.onload = null;
       img.onerror = null;
     };
-  }, [src, options]);
+  }, [src, onLoad, onError]);
 
   return { isLoaded, error };
 };
