@@ -1,4 +1,4 @@
-export { RealtorLoginPage } from './login';
-export { RealtorSignupPage } from './signup';
+export * from './login';
+export * from './certification';
 
 export { default as RealtorPage } from './RealtorPage';
