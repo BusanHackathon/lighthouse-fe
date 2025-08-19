@@ -2,8 +2,23 @@ import { useState } from 'react';
 
 import { Button, Input, Label, RadioGroup, RadioGroupItem } from '@/shared';
 
+import {
+  FORM_FIELDS,
+  LABEL_TEXTS,
+  PLACEHOLDER_TEXTS,
+  RENT_TYPES,
+  RENT_TYPE_CONFIG,
+} from '../../../constants';
+import type { RentType } from '../../../types';
+
 export const DiagnosticForm = () => {
-  const [rentType, setRentType] = useState<'jeonse' | 'monthly'>('jeonse');
+  const [rentType, setRentType] = useState<RentType>(RENT_TYPES.JEONSE);
+
+  const handleRentTypeChange = (value: string) => {
+    setRentType(value as RentType);
+  };
+
+  const currentRentConfig = RENT_TYPE_CONFIG[rentType];
 
   //TODO: 추후 Form 컴포넌트로 리팩토링
   return (
@@ -11,50 +26,43 @@ export const DiagnosticForm = () => {
       <div className='flex w-4/5 flex-col gap-2'>
         <div className='flex w-full flex-col gap-4'>
           <div className='flex flex-col gap-2'>
-            <Label htmlFor='address' className='text-sm font-medium'>
-              주소
+            <Label htmlFor={FORM_FIELDS.ADDRESS} className='text-sm font-medium'>
+              {LABEL_TEXTS.ADDRESS}
             </Label>
-            <Input id='address' placeholder='주소를 알려주세요' />
+            <Input id={FORM_FIELDS.ADDRESS} placeholder={PLACEHOLDER_TEXTS.ADDRESS} />
           </div>
           <div className='flex flex-col gap-2'>
-            <Label htmlFor='house-type' className='text-sm font-medium'>
-              주택유형
+            <Label htmlFor={FORM_FIELDS.HOUSE_TYPE} className='text-sm font-medium'>
+              {LABEL_TEXTS.HOUSE_TYPE}
             </Label>
-            <Input id='house-type' placeholder='주택유형을 알려주세요' />
+            <Input id={FORM_FIELDS.HOUSE_TYPE} placeholder={PLACEHOLDER_TEXTS.HOUSE_TYPE} />
           </div>
           <div className='flex flex-col gap-2'>
-            <Label htmlFor='detail-address' className='text-sm font-medium'>
-              상세주소
+            <Label htmlFor={FORM_FIELDS.DETAIL_ADDRESS} className='text-sm font-medium'>
+              {LABEL_TEXTS.DETAIL_ADDRESS}
             </Label>
-            <Input id='detail-address' placeholder='상세주소를 알려주세요.' />
+            <Input id={FORM_FIELDS.DETAIL_ADDRESS} placeholder={PLACEHOLDER_TEXTS.DETAIL_ADDRESS} />
           </div>
           <div className='flex flex-col gap-2'>
-            <Label className='text-sm font-medium'>보증금</Label>
+            <Label className='text-sm font-medium'>{LABEL_TEXTS.DEPOSIT}</Label>
             <RadioGroup
               value={rentType}
-              onValueChange={(value) => setRentType(value as 'jeonse' | 'monthly')}
+              onValueChange={handleRentTypeChange}
               className='flex items-center gap-4'
             >
-              <div className='flex items-center gap-2'>
-                <RadioGroupItem value='jeonse' id='jeonse' />
-                <Label htmlFor='jeonse' className='text-sm'>
-                  전세
-                </Label>
-              </div>
-              <div className='flex items-center gap-2'>
-                <RadioGroupItem value='monthly' id='monthly' />
-                <Label htmlFor='monthly' className='text-sm'>
-                  월세
-                </Label>
-              </div>
+              {Object.entries(RENT_TYPE_CONFIG).map(([value, config]) => (
+                <div key={value} className='flex items-center gap-2'>
+                  <RadioGroupItem value={value} id={value} />
+                  <Label htmlFor={value} className='text-sm'>
+                    {config.label}
+                  </Label>
+                </div>
+              ))}
             </RadioGroup>
           </div>
           <div className='flex flex-col gap-2'>
             <div className='relative'>
-              <Input
-                placeholder={rentType === 'jeonse' ? '전세금액' : '월세금액'}
-                className='pr-12'
-              />
+              <Input placeholder={currentRentConfig.placeholder} className='pr-12' />
               <span className='absolute top-1/2 right-4 -translate-y-1/2 transform text-sm font-semibold text-gray-600'>
                 원
               </span>
