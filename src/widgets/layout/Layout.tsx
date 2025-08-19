@@ -1,16 +1,10 @@
 import { Outlet, useMatches } from 'react-router-dom';
 
-import { Footer, Header, type LayoutToFooterMap, type LayoutType, ScrollToTop } from '@/shared';
+import { Header, type LayoutType, ScrollToTop } from '@/shared';
 
 type PageHandle = {
   layout?: keyof LayoutType;
 };
-
-const layoutToFooterMap: LayoutToFooterMap = {
-  Main: 'Main',
-  Auth: 'Auth',
-  Realtor: 'Main',
-} as const;
 
 export const Layout = () => {
   const matches = useMatches();
@@ -27,7 +21,6 @@ export const Layout = () => {
             <ScrollToTop />
             <Outlet />
           </div>
-          <Footer type={layoutToFooterMap[layoutType]} />
         </div>
       </main>
     </div>
