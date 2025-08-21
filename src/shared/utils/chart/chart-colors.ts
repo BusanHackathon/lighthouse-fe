@@ -43,8 +43,8 @@ export const getRiskColorClass = (hexColor: string): string => {
   const colorMap: Record<string, string> = {
     '#ff6f6f': 'bg-risk-very-danger', // 매우 위험
     '#ffba6f': 'bg-risk-danger', // 위험
-    '#ffe93f': 'bg-risk-good', // 양호
-    '#d9ff41': 'bg-risk-safe', // 안전
+    '#f5e03c': 'bg-risk-good', // 양호
+    '#d0f14f': 'bg-risk-safe', // 안전
     '#2cdf44': 'bg-risk-very-safe', // 매우 안전
   };
 
@@ -55,8 +55,8 @@ export const getRiskBoxShadowClass = (hexColor: string): string => {
   const colorMap: Record<string, string> = {
     '#ff6f6f': 'shadow-[0_0_12px_var(--color-risk-very-danger)]', // 매우 위험
     '#ffba6f': 'shadow-[0_0_12px_var(--color-risk-danger)]', // 위험
-    '#ffe93f': 'shadow-[0_0_12px_var(--color-risk-good)]', // 양호
-    '#d9ff41': 'shadow-[0_0_12px_var(--color-risk-safe)]', // 안전
+    '#f5e03c': 'shadow-[0_0_12px_var(--color-risk-good)]', // 양호
+    '#d0f14f': 'shadow-[0_0_12px_var(--color-risk-safe)]', // 안전
     '#2cdf44': 'shadow-[0_0_12px_var(--color-risk-very-safe)]', // 매우 안전
   };
   return colorMap[hexColor] || 'shadow-[0_0_12px_rgba(156,163,175,0.5)]';
