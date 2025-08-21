@@ -1,5 +1,4 @@
-import { NeedleIcon } from '@/shared/components/common';
-import { type GaugeData } from '@/shared/utils/chart/risk-chart';
+import { type GaugeData, NeedleIcon } from '@/shared';
 
 type Props = {
   gaugeData: GaugeData;
