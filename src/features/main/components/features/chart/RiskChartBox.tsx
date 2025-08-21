@@ -14,7 +14,7 @@ export const RiskChartBox = ({ riskScore }: Props) => {
   const gaugeData: GaugeData = getGaugeData(riskScore);
 
   return (
-    <div className='flex-1 rounded-lg bg-white p-6 shadow-sm'>
+    <div className='w-full rounded-lg bg-white p-6 shadow-sm'>
       <h3 className='mb-2 text-lg font-bold text-gray-900'>전세 계약 최종 위험도</h3>
       <p className='text-md mb-6 flex items-center gap-2 text-gray-600'>
         <span className='font-semibold'>위험 점수 :</span>
