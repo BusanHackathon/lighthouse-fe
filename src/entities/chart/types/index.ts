@@ -1,1 +1,2 @@
-export * from './risk-chart.type';
+export * from './chart.type';
+export * from './risk-analysis.type';
