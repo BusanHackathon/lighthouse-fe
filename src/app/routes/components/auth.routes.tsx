@@ -1,4 +1,4 @@
-import { LoginPage, RealtorCertificationPage, RealtorLoginPage } from '@/pages';
+import { LoginPage, OAuthRedirectPage, RealtorCertificationPage, RealtorLoginPage } from '@/pages';
 import { ROUTER_PATH } from '@/shared';
 import { Layout } from '@/widgets';
 
@@ -13,6 +13,11 @@ export const authRoutes = [
         path: ROUTE_CONFIG.LOGIN.path,
         element: <LoginPage />,
         handle: { layout: ROUTE_CONFIG.LOGIN.layout },
+      },
+      {
+        path: ROUTE_CONFIG.OAUTH_REDIRECT.path,
+        element: <OAuthRedirectPage />,
+        handle: { layout: ROUTE_CONFIG.OAUTH_REDIRECT.layout },
       },
     ],
   },
