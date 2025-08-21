@@ -7,12 +7,8 @@ export default function MainPage() {
         <InputSection />
         <MapSection />
       </div>
-      <div className='flex w-full flex-col'>
-        <RiskAnalysisSummarySection />
-      </div>
-      <div className='flex w-full gap-2'>
-        <ChartSection />
-      </div>
+      <RiskAnalysisSummarySection />
+      <ChartSection />
     </div>
   );
 }
