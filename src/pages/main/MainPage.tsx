@@ -1,6 +1,8 @@
 import {
+  AlternativeSection,
   ChartSection,
   InputSection,
+  LandlordPropertySection,
   LandlordReliabilitySection,
   MapSection,
   RiskAnalysisSummarySection,
@@ -16,6 +18,8 @@ export default function MainPage() {
       <RiskAnalysisSummarySection />
       <ChartSection />
       <LandlordReliabilitySection />
+      <LandlordPropertySection />
+      <AlternativeSection />
     </div>
   );
 }
