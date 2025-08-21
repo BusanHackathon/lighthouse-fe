@@ -11,8 +11,7 @@ type Props = {
 
 export const ChartLineItem = ({ line, index }: Props) => {
   const { getLineConfig } = useChartConfig();
-
   const config = getLineConfig(line, index);
 
-  return <Line {...config} />;
+  return <Line key={line.key} {...config} />;
 };
