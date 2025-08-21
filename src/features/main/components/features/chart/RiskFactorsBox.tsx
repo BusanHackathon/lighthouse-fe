@@ -6,17 +6,22 @@ type Props = {
 
 export const RiskFactorsBox = ({ riskFactors }: Props) => {
   return (
-    <div className='flex-1 rounded-lg bg-white p-6 shadow-sm'>
-      <h3 className='mb-6 text-lg font-bold text-gray-900'>핵심 위험 요인</h3>
-      <ul className='space-y-3'>
+    <div className='w-full rounded-lg bg-white p-6'>
+      <h3 className='mb-6 text-2xl font-bold text-gray-900'>주요 위험 요인</h3>
+      <div className='flex w-full flex-col gap-2'>
         {riskFactors.map((factor, index) => (
-          <li key={index} className='flex items-center gap-3'>
-            <div className='h-2 w-2 rounded-full bg-gray-400' />
-            <span className='text-blue-600'>{factor.name}</span>
-            <span className='ml-auto font-medium text-red-500'>{factor.percent}%</span>
-          </li>
+          <div key={index} className='flex items-center gap-5 py-3 text-center font-semibold'>
+            <div className='size-1 rounded-full bg-black' />
+            <span className='flex items-center gap-2 text-gray-900'>
+              <span className='text-lg text-lighthouse-blue'>{factor.name}</span>
+              <div className='flex items-center gap-1'>
+                <span className='font-medium text-red-500'>{factor.percent}</span>
+                <span className='text-black'>%</span>
+              </div>
+            </span>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
