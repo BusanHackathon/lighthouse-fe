@@ -11,7 +11,6 @@ export type RiskFactor = {
 // 위험도 요약
 export type RiskSummary = {
   score: number;
-  grade: string;
   factors: RiskFactor[];
 };
 
