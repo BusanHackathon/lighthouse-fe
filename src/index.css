@@ -74,9 +74,11 @@
   --color-risk-good: var(--risk-good);
   --color-risk-safe: var(--risk-safe);
   --color-risk-very-safe: var(--risk-very-safe);
+  --text-landlord-reliability: var(--landlord-reliability-font-size);
 }
 
 :root {
+  --landlord-reliability-font-size: 250px;
   --chart-blue: #0c3165;
   --chart-orange: #f57a0c;
   --chart-green: #10b981;
