@@ -13,18 +13,24 @@ jobs:
     permissions:
       pull-requests: write
       issues: read
+      contents: read
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
       - name: Check if PR already exists
         id: check_pr
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
+            echo "Checking if PR exists for branch: ${{ github.ref_name }}"
+            echo "Repository: ${{ github.repository }}"
+            echo "Actor: ${{ github.actor }}"
+            
             if gh pr view "${{ github.ref_name }}" --json number >/dev/null 2>&1; then
               echo "PR already exists for this branch. Skipping."
               echo "exists=true" >> $GITHUB_OUTPUT
@@ -252,14 +258,41 @@ jobs:
           echo "PR body length: ${#PR_BODY}"
           echo "PR body preview: ${PR_BODY:0:200}..."
           
-          # 잠시 대기 후 PR 생성
-          sleep 2
-          
-          gh pr create \
-            --base main \
-            --head ${{ github.ref_name }} \
-            --title "${{ github.ref_name }}" \
-            --body "$PR_BODY" \
-            --assignee ${{ github.actor }}
-          
-          echo "Pull Request created successfully!"
+          # 재시도 로직으로 PR 생성
+          max_attempts=3
+          for attempt in $(seq 1 $max_attempts); do
+            echo "PR 생성 시도 $attempt/$max_attempts"
+            
+            # 잠시 대기 (점진적으로 증가)
+            wait_time=$((attempt * 5))
+            echo "대기 시간: ${wait_time}초"
+            sleep $wait_time
+            
+            # GitHub API 상태 확인
+            echo "GitHub API 상태 확인 중..."
+            if ! gh api rate-limit > /dev/null 2>&1; then
+              echo "GitHub API 연결 문제. 재시도 중..."
+              continue
+            fi
+            
+            # PR 생성 시도
+            if gh pr create \
+              --base main \
+              --head ${{ github.ref_name }} \
+              --title "${{ github.ref_name }}" \
+              --body "$PR_BODY" \
+              --assignee ${{ github.actor }}; then
+              
+              echo "Pull Request created successfully!"
+              break
+            else
+              echo "PR 생성 실패 (시도 $attempt/$max_attempts)"
+              
+              if [ $attempt -eq $max_attempts ]; then
+                echo "모든 PR 생성 시도 실패. 수동으로 PR을 생성해주세요."
+                echo "브랜치: ${{ github.ref_name }}"
+                echo "PR 내용 길이: ${#PR_BODY}"
+                exit 1
+              fi
+            fi
+          done
