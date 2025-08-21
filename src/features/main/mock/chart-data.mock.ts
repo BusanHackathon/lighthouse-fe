@@ -39,13 +39,11 @@ export const CHART_DATA_CONFIGS = [
     lines: [
       {
         key: '기준치',
-        color: '#0c3165',
         name: '기준치',
         showDot: false,
       },
       {
         key: '변동률',
-        color: '#f57a0c',
         name: '변동률',
         showDot: true,
       },
