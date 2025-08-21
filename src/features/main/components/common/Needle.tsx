@@ -1,15 +1,17 @@
-import { type GaugeData, NeedleIcon } from '@/shared';
+import { NeedleIcon } from '@/shared';
 
 type Props = {
-  gaugeData: GaugeData;
+  needleAngle: number;
 };
 
-export const Needle = ({ gaugeData }: Props) => {
+export const Needle = ({ needleAngle }: Props) => {
+  const correctedAngle = needleAngle - 90;
+
   return (
     <div
       className='absolute top-1/2 left-1/2 origin-bottom -translate-x-1/2 -translate-y-full transition-transform duration-500 ease-in-out sm:h-20 md:h-16 lg:h-24'
       style={{
-        transform: `rotate(${gaugeData.angle}deg)`,
+        transform: `rotate(${correctedAngle}deg)`,
       }}
     >
       <div className='absolute bottom-0 left-1/2 z-10 size-2 -translate-x-1/2 translate-y-1/2 rounded-full bg-gray-400 sm:size-4 md:size-5 lg:size-6' />
