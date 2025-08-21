@@ -14,7 +14,7 @@ export const Needle = ({ gaugeData }: Props) => {
     >
       <div className='absolute bottom-0 left-1/2 z-10 h-6 w-6 -translate-x-1/2 translate-y-1/2 rounded-full bg-gray-400' />
 
-      <NeedleIcon className='absolute bottom-0 left-1/2 h-20 w-40 -translate-x-1/2 rounded-md text-gray-800' />
+      <NeedleIcon className='absolute bottom-0 left-1/2 h-24 w-50 -translate-x-1/2 rounded-md text-gray-800' />
     </div>
   );
 };
