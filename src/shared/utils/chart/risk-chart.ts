@@ -87,7 +87,6 @@ export const getGaugeAngle = (score: number): number => {
     result = 144 + ((normalized - 80) / 20) * 36;
   }
 
-  console.log(`보정점수 : ${normalized} 바늘 위치: ${score}점 → ${result}도`);
   return result;
 };
 
