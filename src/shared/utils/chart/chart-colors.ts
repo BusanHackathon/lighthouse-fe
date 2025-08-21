@@ -66,3 +66,54 @@ export const getRiskBoxShadowClass = (hexColor: string): string => {
  * 차트 색상 개수
  */
 export const CHART_COLOR_COUNT = CHART_COLORS.length;
+
+/**
+ * 대위변제 이력에 따른 색상 클래스 반환
+ * @param count - 대위변제 횟수
+ * @returns Tailwind CSS 텍스트 색상 클래스
+ */
+export const getSubrogationColorClass = (count: number): string => {
+  if (count === 0) {
+    return 'text-risk-very-safe'; // 초록색 #2cdf44
+  } else if (count === 1) {
+    return 'text-risk-danger'; // 주황색 #ffba6f
+  } else {
+    return 'text-risk-very-danger'; // 빨간색 #ff6f6f
+  }
+};
+
+/**
+ * 다주택자 수에 따른 색상 클래스 반환 (임의 색상)
+ * @param count - 다주택자 수
+ * @returns Tailwind CSS 텍스트 색상 클래스
+ */
+
+// TODO: 적절한 기준에 따른 색상 클래스 반환
+export const getMultiHouseColorClass = (count: number): string => {
+  if (count === 0) {
+    return 'text-risk-very-safe'; // 초록색
+  } else if (count <= 2) {
+    return 'text-risk-good'; // 노란색
+  } else if (count <= 5) {
+    return 'text-risk-danger'; // 주황색
+  } else {
+    return 'text-risk-very-danger'; // 빨간색
+  }
+};
+
+/**
+ * 신뢰도 등급에 따른 색상 클래스 반환
+ * @param grade - 신뢰도 등급 (A~E)
+ * @returns Tailwind CSS 텍스트 색상 클래스
+ */
+export const getTrustGradeColorClass = (grade: string): string => {
+  const gradeMap: Record<string, string> = {
+    A: 'text-risk-very-safe', // 초록색
+    B: 'text-risk-safe', // 연두색
+    C: 'text-risk-good', // 노란색
+    D: 'text-risk-danger', // 주황색
+    E: 'text-risk-very-danger', // 빨간색
+  };
+
+  return gradeMap[grade] || 'text-gray-600';
+};

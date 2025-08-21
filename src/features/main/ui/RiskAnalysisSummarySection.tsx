@@ -10,7 +10,10 @@ export const RiskAnalysisSummarySection = () => {
       {/* 메인 위험도 분석 섹션 */}
       <div className='flex w-full justify-between p-5'>
         {/* 왼쪽: 위험도 게이지 */}
-        <RiskChartBox riskScore={currentData.data.riskSummary.score} />
+        <RiskChartBox
+          riskScore={currentData.data.riskSummary.score}
+          title='전세 계약 최종 위험도'
+        />
         {/* 오른쪽: 핵심 위험 요인 */}
         <RiskFactorsBox riskFactors={currentData.data.riskSummary.factors} />
       </div>
