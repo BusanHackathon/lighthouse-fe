@@ -32,7 +32,7 @@ const CHART_COLOR_CLASSES = [
  * @returns CSS 변수 문자열
  */
 export const getChartColor = (index: number): string => {
-  return CHART_COLORS[index] || CHART_COLORS[index % CHART_COLORS.length];
+  return CHART_COLORS[index % CHART_COLORS.length];
 };
 
 /**
@@ -41,7 +41,7 @@ export const getChartColor = (index: number): string => {
  * @returns Tailwind CSS 클래스명
  */
 export const getChartColorClass = (index: number): string => {
-  return CHART_COLOR_CLASSES[index] || CHART_COLOR_CLASSES[index % CHART_COLOR_CLASSES.length];
+  return CHART_COLOR_CLASSES[index % CHART_COLOR_CLASSES.length];
 };
 
 /**
