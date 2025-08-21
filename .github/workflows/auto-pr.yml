@@ -157,7 +157,7 @@ jobs:
                   
                   // 429 에러 (Rate Limit)인 경우 재시도 대기
                   if (response.status === 429 && attempt < maxRetries) {
-                    const waitTime = Math.pow(2, attempt) * 1000; // 지수 백오프
+                    const waitTime = Math.pow(2, attempt) * 2000;
                     console.log(`Rate limit 초과. ${waitTime}ms 후 재시도...`);
                     await new Promise(resolve => setTimeout(resolve, waitTime));
                     lastError = error;
@@ -199,9 +199,20 @@ jobs:
                   throw new Error(`Invalid or empty text response from Gemini.\nParts: ${JSON.stringify(candidate.content.parts)}`);
                 }
 
+                // 응답 검증 - 최소 길이 확인
+                if (aiResponse.length < 100) {
+                  throw new Error(`Generated response is too short (${aiResponse.length} characters). This might indicate an incomplete response.`);
+                }
+
                 aiResponse = aiResponse.replace(/^```markdown\n/, '').replace(/\n```$/, '');
-                console.log('Generated PR body:', aiResponse);
+                console.log('Generated PR body length:', aiResponse.length);
+                console.log('Generated PR body preview:', aiResponse.substring(0, 200) + '...');
+                
+                // 출력 설정 전에 잠시 대기
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
                 core.setOutput('body', aiResponse);
+                console.log('PR body successfully set to output');
                 return; // 성공 시 함수 종료
 
               } catch (error) {
@@ -213,7 +224,7 @@ jobs:
                 }
                 
                 // 마지막 시도가 아니면 잠시 대기
-                const waitTime = 1000 * attempt;
+                const waitTime = 2000 * attempt; // 대기 시간 증가
                 console.log(`${waitTime}ms 후 재시도...`);
                 await new Promise(resolve => setTimeout(resolve, waitTime));
               }
@@ -224,6 +235,7 @@ jobs:
             return;
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        timeout-minutes: 10 # 타임아웃 시간 증가
 
       - name: Create Pull Request
         if: steps.check_pr.outputs.exists == 'false'
@@ -231,9 +243,23 @@ jobs:
           GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           PR_BODY: ${{ steps.generate-body.outputs.body }}
         run: |
+          # PR body가 비어있는지 확인
+          if [ -z "$PR_BODY" ]; then
+            echo "Error: PR body is empty. Skipping PR creation."
+            exit 1
+          fi
+          
+          echo "PR body length: ${#PR_BODY}"
+          echo "PR body preview: ${PR_BODY:0:200}..."
+          
+          # 잠시 대기 후 PR 생성
+          sleep 2
+          
           gh pr create \
             --base main \
             --head ${{ github.ref_name }} \
             --title "${{ github.ref_name }}" \
             --body "$PR_BODY" \
             --assignee ${{ github.actor }}
+          
+          echo "Pull Request created successfully!"
