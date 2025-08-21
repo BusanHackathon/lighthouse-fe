@@ -8,14 +8,14 @@ export const TEMP_RISK_ANALYSIS_DATA: RiskAnalysisResponse[] = [
   {
     data: {
       riskSummary: {
-        score: 0,
-        grade: '안전',
+        score: 20,
+        grade: '위험',
         factors: [
-          { name: '전세가율', percent: 0 },
-          { name: '가격하락', percent: 0 },
-          { name: '미분양(재고)', percent: 0 },
-          { name: '정책/규제', percent: 0 },
-          { name: '법적 리스크', percent: 0 },
+          { name: '전세가율', percent: 12 },
+          { name: '가격하락', percent: 10 },
+          { name: '미분양(재고)', percent: 7 },
+          { name: '정책/규제', percent: 18 },
+          { name: '법적 리스크', percent: 16 },
         ],
       },
       landlord: {
@@ -23,7 +23,7 @@ export const TEMP_RISK_ANALYSIS_DATA: RiskAnalysisResponse[] = [
         name: '홍길동',
         normalizedKey: '부산-사업자번호-해시',
         ownedCount: 1,
-        grade: 'A',
+        grade: 'B',
         createdAt: '2025-08-21T02:26:22.055226',
         updatedAt: '2025-08-21T02:26:22.055226',
       },
