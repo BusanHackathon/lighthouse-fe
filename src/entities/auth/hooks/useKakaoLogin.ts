@@ -11,8 +11,7 @@ export const useKakaoLogin = () => {
   return useMutation({
     mutationFn: () => {
       // 실제로는 Promise를 반환할 필요는 없지만, mutationFn은 Promise를 기대해.
-      window.location.href = `${BASE_URL}/oauth2/authorization/kakao
-`;
+      window.location.href = `${BASE_URL}/oauth2/authorization/kakao`;
       return Promise.resolve();
     },
     onError: () => {
