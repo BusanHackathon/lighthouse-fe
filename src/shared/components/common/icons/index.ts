@@ -1,0 +1,1 @@
+export { NeedleIcon } from './NeedleIcon';

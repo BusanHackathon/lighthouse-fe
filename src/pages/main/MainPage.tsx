@@ -1,4 +1,4 @@
-import { ChartSection, InputSection, MapSection } from '@/features';
+import { ChartSection, InputSection, MapSection, RiskAnalysisSummarySection } from '@/features';
 
 export default function MainPage() {
   return (
@@ -7,9 +7,8 @@ export default function MainPage() {
         <InputSection />
         <MapSection />
       </div>
-      <div className='flex w-full gap-2'>
-        <ChartSection />
-      </div>
+      <RiskAnalysisSummarySection />
+      <ChartSection />
     </div>
   );
 }

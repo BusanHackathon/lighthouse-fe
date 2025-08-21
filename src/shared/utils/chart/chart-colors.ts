@@ -1,30 +1,7 @@
 /**
  * 차트 색상 관련 유틸리티
  */
-
-// CSS 변수 기반 색상 배열
-const CHART_COLORS = [
-  'var(--chart-orange)', // 첫 번째 (1개일 때)
-  'var(--chart-blue)', // 두 번째
-  'var(--chart-green)', // 세 번째
-  'var(--chart-purple)', // 네 번째
-  'var(--chart-red)', // 다섯 번째
-  'var(--chart-yellow)', // 여섯 번째
-  'var(--chart-pink)', // 일곱 번째
-  'var(--chart-indigo)', // 여덟 번째
-] as const;
-
-// Tailwind CSS 클래스 배열
-const CHART_COLOR_CLASSES = [
-  'bg-chart-orange', // 첫 번째 (1개일 때)
-  'bg-chart-blue', // 두 번째
-  'bg-chart-green', // 세 번째
-  'bg-chart-purple', // 네 번째
-  'bg-chart-red', // 다섯 번째
-  'bg-chart-yellow', // 여섯 번째
-  'bg-chart-pink', // 일곱 번째
-  'bg-chart-indigo', // 여덟 번째
-] as const;
+import { CHART_COLORS, CHART_COLOR_CLASSES, RISK_SCORE_COLORS } from '../../constants';
 
 /**
  * 인덱스에 따른 차트 색상 CSS 변수를 반환
@@ -42,6 +19,47 @@ export const getChartColor = (index: number): string => {
  */
 export const getChartColorClass = (index: number): string => {
   return CHART_COLOR_CLASSES[index % CHART_COLOR_CLASSES.length];
+};
+
+/**
+ * 위험도 점수에 따른 색상 클래스를 반환
+ * @param score - 위험도 점수 (0-100, 낮을수록 위험)
+ * @returns Tailwind CSS 색상 클래스명
+ */
+export const getRiskScoreColorClass = (score: number): string => {
+  if (score <= 20) return RISK_SCORE_COLORS.VERY_DANGER; // 매우 위험
+  if (score <= 40) return RISK_SCORE_COLORS.DANGER; // 위험
+  if (score <= 60) return RISK_SCORE_COLORS.CAUTION; // 양호
+  if (score <= 80) return RISK_SCORE_COLORS.SAFE; // 안전
+  return RISK_SCORE_COLORS.VERY_SAFE; // 매우 안전
+};
+
+/**
+ * 위험도 색상 HEX 값을 Tailwind CSS 클래스로 변환
+ * @param hexColor - HEX 색상 값
+ * @returns Tailwind CSS box-shadow 클래스
+ */
+export const getRiskColorClass = (hexColor: string): string => {
+  const colorMap: Record<string, string> = {
+    '#ff6f6f': 'bg-risk-very-danger', // 매우 위험
+    '#ffba6f': 'bg-risk-danger', // 위험
+    '#ffe93f': 'bg-risk-good', // 양호
+    '#d9ff41': 'bg-risk-safe', // 안전
+    '#2cdf44': 'bg-risk-very-safe', // 매우 안전
+  };
+
+  return colorMap[hexColor] || 'bg-gray-400';
+};
+
+export const getRiskBoxShadowClass = (hexColor: string): string => {
+  const colorMap: Record<string, string> = {
+    '#ff6f6f': 'shadow-[0_0_12px_var(--color-risk-very-danger)]', // 매우 위험
+    '#ffba6f': 'shadow-[0_0_12px_var(--color-risk-danger)]', // 위험
+    '#ffe93f': 'shadow-[0_0_12px_var(--color-risk-good)]', // 양호
+    '#d9ff41': 'shadow-[0_0_12px_var(--color-risk-safe)]', // 안전
+    '#2cdf44': 'shadow-[0_0_12px_var(--color-risk-very-safe)]', // 매우 안전
+  };
+  return colorMap[hexColor] || 'shadow-[0_0_12px_rgba(156,163,175,0.5)]';
 };
 
 /**
