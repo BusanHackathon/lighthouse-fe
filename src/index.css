@@ -69,6 +69,11 @@
   --color-lighthouse-button-secondary: var(--lighthouse-button-secondary);
   --color-lighthouse-button-secondary-text: var(--lighthouse-button-secondary-text);
   --color-lighthouse-button-secondary-hover: var(--lighthouse-button-secondary-hover);
+  --color-risk-very-danger: var(--risk-very-danger);
+  --color-risk-danger: var(--risk-danger);
+  --color-risk-good: var(--risk-good);
+  --color-risk-safe: var(--risk-safe);
+  --color-risk-very-safe: var(--risk-very-safe);
 }
 
 :root {
@@ -122,6 +127,11 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --risk-very-danger: #ff6f6f;
+  --risk-danger: #ffba6f;
+  --risk-good: #ffe93f;
+  --risk-safe: #d9ff41;
+  --risk-very-safe: #2cdf44;
 }
 
 .dark {
