@@ -12,7 +12,7 @@ export type RiskSegment = {
 };
 
 // 색상 상수
-const COLORS = {
+export const COLORS = {
   RED: '#ff6f6f',
   ORANGE: '#ffba6f',
   YELLOW: '#f5e03c',

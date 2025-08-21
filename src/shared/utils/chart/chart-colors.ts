@@ -1,7 +1,7 @@
 /**
  * 차트 색상 관련 유틸리티
  */
-import { CHART_COLORS, CHART_COLOR_CLASSES, RISK_SCORE_COLORS } from '../../constants';
+import { CHART_COLORS, CHART_COLOR_CLASSES, COLORS, RISK_SCORE_COLORS } from '../../constants';
 
 /**
  * 인덱스에 따른 차트 색상 CSS 변수를 반환
@@ -41,11 +41,11 @@ export const getRiskScoreColorClass = (score: number): string => {
  */
 export const getRiskColorClass = (hexColor: string): string => {
   const colorMap: Record<string, string> = {
-    '#ff6f6f': 'bg-risk-very-danger', // 매우 위험
-    '#ffba6f': 'bg-risk-danger', // 위험
-    '#f5e03c': 'bg-risk-good', // 양호
-    '#d0f14f': 'bg-risk-safe', // 안전
-    '#2cdf44': 'bg-risk-very-safe', // 매우 안전
+    [COLORS.RED]: 'bg-risk-very-danger', // 매우 위험
+    [COLORS.ORANGE]: 'bg-risk-danger', // 위험
+    [COLORS.YELLOW]: 'bg-risk-good', // 양호
+    [COLORS.YELLOW_GREEN]: 'bg-risk-safe', // 안전
+    [COLORS.GREEN]: 'bg-risk-very-safe', // 매우 안전
   };
 
   return colorMap[hexColor] || 'bg-gray-400';
@@ -53,11 +53,11 @@ export const getRiskColorClass = (hexColor: string): string => {
 
 export const getRiskBoxShadowClass = (hexColor: string): string => {
   const colorMap: Record<string, string> = {
-    '#ff6f6f': 'shadow-[0_0_12px_var(--color-risk-very-danger)]', // 매우 위험
-    '#ffba6f': 'shadow-[0_0_12px_var(--color-risk-danger)]', // 위험
-    '#f5e03c': 'shadow-[0_0_12px_var(--color-risk-good)]', // 양호
-    '#d0f14f': 'shadow-[0_0_12px_var(--color-risk-safe)]', // 안전
-    '#2cdf44': 'shadow-[0_0_12px_var(--color-risk-very-safe)]', // 매우 안전
+    [COLORS.RED]: 'shadow-[0_0_12px_var(--color-risk-very-danger)]', // 매우 위험
+    [COLORS.ORANGE]: 'shadow-[0_0_12px_var(--color-risk-danger)]', // 위험
+    [COLORS.YELLOW]: 'shadow-[0_0_12px_var(--color-risk-good)]', // 양호
+    [COLORS.YELLOW_GREEN]: 'shadow-[0_0_12px_var(--color-risk-safe)]', // 안전
+    [COLORS.GREEN]: 'shadow-[0_0_12px_var(--color-risk-very-safe)]', // 매우 안전
   };
   return colorMap[hexColor] || 'shadow-[0_0_12px_rgba(156,163,175,0.5)]';
 };
