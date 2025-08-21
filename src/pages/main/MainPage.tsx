@@ -1,4 +1,10 @@
-import { ChartSection, InputSection, MapSection, RiskAnalysisSummarySection } from '@/features';
+import {
+  ChartSection,
+  InputSection,
+  LandlordReliabilitySection,
+  MapSection,
+  RiskAnalysisSummarySection,
+} from '@/features';
 
 export default function MainPage() {
   return (
@@ -9,6 +15,7 @@ export default function MainPage() {
       </div>
       <RiskAnalysisSummarySection />
       <ChartSection />
+      <LandlordReliabilitySection />
     </div>
   );
 }
