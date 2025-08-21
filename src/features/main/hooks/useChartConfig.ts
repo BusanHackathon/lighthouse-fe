@@ -59,7 +59,6 @@ export const useChartConfig = () => {
 
   // 라인 설정 생성 함수
   const getLineConfig = (line: ChartLine, index: number) => ({
-    key: line.key,
     type: 'monotone' as const,
     dataKey: line.key,
     stroke: getChartColor(index),
