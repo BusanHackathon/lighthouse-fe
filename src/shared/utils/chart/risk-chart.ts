@@ -17,8 +17,6 @@ export type GaugeData = {
 };
 
 // 상수 정의
-const MAX_SCORE = 100;
-const MAX_ANGLE = 180;
 const SEGMENT_SIZE = 20;
 
 // 점수 범위 검증 함수
@@ -33,14 +31,20 @@ export const toRiskScore = (score: number): RiskScore => {
 
 /**
  * 위험도 점수에 따른 구간 인덱스를 계산
- * 점수가 낮을수록 위험하므로 인덱스를 그대로 계산
+ * 점수가 낮을수록 위험하므로 인덱스를 반대로 계산
  * @param score - 위험도 점수 (0-100, 낮을수록 위험)
- * @returns 구간 인덱스 (0-4, 0=위험, 4=안전)
+ * @returns 구간 인덱스 (0-4, 0=매우 안전, 4=매우 위험)
  */
 export const getSegmentIndex = (score: RiskScore): RiskSegmentIndex => {
-  // 점수가 낮을수록 위험하므로 그대로 계산
-  const segmentIndex = Math.floor(score / SEGMENT_SIZE);
-  return Math.min(segmentIndex, 4) as RiskSegmentIndex;
+  // 점수가 낮을수록 위험하므로 인덱스를 반대로 계산
+  // 0-20점: 4번 인덱스 (매우 위험)
+  // 21-40점: 3번 인덱스 (위험)
+  // 41-60점: 2번 인덱스 (양호)
+  // 61-80점: 1번 인덱스 (안전)
+  // 81-100점: 0번 인덱스 (매우 안전)
+  const segmentIndex = Math.floor((score - 1) / SEGMENT_SIZE);
+  const reversedIndex = 4 - Math.max(0, Math.min(segmentIndex, 4));
+  return reversedIndex as RiskSegmentIndex;
 };
 
 /**
@@ -51,20 +55,40 @@ export const getSegmentIndex = (score: RiskScore): RiskSegmentIndex => {
 export const getRiskSegment = (score: number): RiskSegment => {
   const normalizedScore = toRiskScore(score);
   const segmentIndex = getSegmentIndex(normalizedScore);
-  return RISK_CHART_SEGMENTS[segmentIndex];
+  const result = RISK_CHART_SEGMENTS[segmentIndex];
+  return result;
 };
 
 /**
- * 위험도 점수에 따른 각도 계산
- * 점수가 낮을수록 위험하므로 각도를 그대로 계산
+ * 위험도 점수를 5구간으로 나눠서 각도로 변환 (이산형)
+ * 5구간을 36도씩 나누어 표현 (0-36, 36-72, 72-108, 108-144, 144-180)
  * @param score - 위험도 점수 (0-100, 낮을수록 위험)
  * @returns 바늘 각도 (0-180도)
  */
 export const getGaugeAngle = (score: number): number => {
-  const normalizedScore = toRiskScore(score);
-  // 점수가 낮을수록 위험하므로 각도를 그대로 계산
-  // 0점(위험) = 0도, 100점(안전) = 180도
-  return (normalizedScore / MAX_SCORE) * MAX_ANGLE;
+  const normalized = Math.max(0, Math.min(100, score)); // 0~100 보정
+
+  // 5구간을 36도씩 나누어 계산
+  let result: number;
+  if (normalized <= 20) {
+    // 0-20점: 매우 위험 (0-36도, 왼쪽)
+    result = (normalized / 20) * 36;
+  } else if (normalized <= 40) {
+    // 21-40점: 위험 (36-72도)
+    result = 36 + ((normalized - 20) / 20) * 36;
+  } else if (normalized <= 60) {
+    // 41-60점: 양호 (72-108도, 중앙)
+    result = 72 + ((normalized - 40) / 20) * 36;
+  } else if (normalized <= 80) {
+    // 61-80점: 안전 (108-144도)
+    result = 108 + ((normalized - 60) / 20) * 36;
+  } else {
+    // 81-100점: 매우 안전 (144-180도, 오른쪽)
+    result = 144 + ((normalized - 80) / 20) * 36;
+  }
+
+  console.log(`보정점수 : ${normalized} 바늘 위치: ${score}점 → ${result}도`);
+  return result;
 };
 
 /**
@@ -77,12 +101,14 @@ export const getGaugeData = (score: number): GaugeData => {
   const currentSegment = getRiskSegment(normalizedScore);
   const angle = getGaugeAngle(normalizedScore);
 
-  return {
+  const result = {
     data: RISK_CHART_SEGMENTS as RiskSegment[],
     color: currentSegment.fill,
     label: currentSegment.name,
     angle,
   };
+
+  return result;
 };
 
 /**
