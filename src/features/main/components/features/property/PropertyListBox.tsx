@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
 import HomeIcon from '../../../_assets/Home.webp';
-import { PROPERTY_TYPE_COLORS } from '../../../constants';
 import type { Property } from '../../../types';
+import { getPropertyTypeColor } from '../../../utils';
 import { Pagination } from '../../common';
 
 type Props = {
@@ -34,8 +34,7 @@ export const PropertyListBox = ({ properties, title }: Props) => {
                 <span
                   className='flex h-6 w-16 items-center justify-center rounded-xs text-sm font-medium text-white'
                   style={{
-                    backgroundColor:
-                      PROPERTY_TYPE_COLORS[property.type as keyof typeof PROPERTY_TYPE_COLORS],
+                    backgroundColor: getPropertyTypeColor(property.type),
                   }}
                 >
                   {property.type}
