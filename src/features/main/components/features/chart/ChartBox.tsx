@@ -98,7 +98,7 @@ export const ChartBox = ({
               return (
                 <ul className='m-0 flex list-none gap-5 p-0'>
                   {lines.map((line, index) => (
-                    <li key={index} className='flex items-center gap-2'>
+                    <li key={line.key} className='flex items-center gap-2'>
                       <div className={`h-1 w-5 ${getChartColorClass(index)}`} />
                       <span className='text-sm text-gray-600'>{line.name}</span>
                     </li>
