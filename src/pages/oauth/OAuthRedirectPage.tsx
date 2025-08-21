@@ -25,7 +25,7 @@ export default function OAuthRedirectPage() {
     if (isError) {
       // 실패 시, 에러 처리 후 로그인 페이지로 이동
       toast.error('카카오 로그인에 실패했습니다.');
-      navigate('/login');
+      navigate(ROUTER_PATH.LOGIN);
     }
   }, [isSuccess, isError, data, navigate]);
 
