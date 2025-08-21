@@ -15,8 +15,8 @@ export type RiskSegment = {
 const COLORS = {
   RED: '#ff6f6f',
   ORANGE: '#ffba6f',
-  YELLOW: '#ffe93f',
-  YELLOW_GREEN: '#d9ff41',
+  YELLOW: '#f5e03c',
+  YELLOW_GREEN: '#d0f14f',
   GREEN: '#2cdf44',
 } as const;
 
