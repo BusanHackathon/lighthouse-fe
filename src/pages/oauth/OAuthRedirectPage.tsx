@@ -15,19 +15,13 @@ export default function OAuthRedirectPage() {
   const oauthError = searchParams.get('error');
   const errorDescription = searchParams.get('error_description');
 
-  // OAuth 에러 처리
   useEffect(() => {
     if (oauthError) {
       setError(errorDescription || `OAuth 인증 오류: ${oauthError}`);
-    }
-  }, [oauthError, errorDescription]);
-
-  // ticket이 없으면 에러 처리
-  useEffect(() => {
-    if (!oauthError && !ticket) {
+    } else if (!ticket) {
       setError('인증 토큰이 없습니다. 다시 로그인해주세요.');
     }
-  }, [ticket, oauthError]);
+  }, [oauthError, errorDescription, ticket]);
 
   // ticket이 있고 OAuth 에러가 없을 때만 API 호출
   const shouldCallApi = !!ticket && !oauthError;
