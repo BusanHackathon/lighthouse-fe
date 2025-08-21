@@ -31,6 +31,10 @@ export const ROUTE_CONFIG: Record<string, RouteConfig> = {
     path: ROUTER_PATH.REALTOR_CERTIFICATION,
     layout: 'Auth',
   },
+  OAUTH_REDIRECT: {
+    path: ROUTER_PATH.OAUTH_REDIRECT,
+    layout: 'Auth',
+  },
   REALTOR: {
     path: ROUTER_PATH.REALTOR,
     requiresRealtor: true, // 공인중개사만 접근 가능
