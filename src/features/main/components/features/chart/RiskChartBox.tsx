@@ -29,8 +29,8 @@ export const RiskChartBox = ({ riskScore }: Props) => {
               cy='50%'
               startAngle={0}
               endAngle={180}
-              innerRadius={130}
-              outerRadius={180}
+              innerRadius='70%'
+              outerRadius='95%'
               paddingAngle={4}
               cornerRadius={6}
               dataKey='value'
