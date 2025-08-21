@@ -3,13 +3,13 @@
  */
 
 // 타입 정의
-export type RiskLevel = '위험' | '다소 위험' | '양호' | '다소안전' | '안전';
+export type RiskLevel = '안전' | '다소 안전' | '양호' | '다소 위험' | '위험';
 
-export interface RiskSegment {
+export type RiskSegment = {
   name: RiskLevel;
   value: number;
   fill: string;
-}
+};
 
 // 색상 상수
 const COLORS = {
@@ -34,7 +34,7 @@ const NAMES = {
   RISK: '위험' as const,
   MODERATE_RISK: '다소 위험' as const,
   GOOD: '양호' as const,
-  MODERATE_SAFE: '다소안전' as const,
+  MODERATE_SAFE: '다소 안전' as const,
   SAFE: '안전' as const,
 } as const;
 
