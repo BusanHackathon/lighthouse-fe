@@ -1,7 +1,5 @@
 import { Map, MapMarker, useKakaoLoader } from 'react-kakao-maps-sdk';
 
-import { toast } from 'sonner';
-
 import { Spinner } from '@/shared';
 
 type Props = {
@@ -22,15 +20,10 @@ export const KakaoMap = ({ lat, lng }: Props) => {
 
   if (loading) return <Spinner />;
 
-  if (error) return toast.error(error.message);
+  if (error) return <div>오류 : {error.message}</div>;
 
   return (
-    <Map // 지도를 표시할 Container
-      id='map'
-      center={center}
-      className='h-full w-full'
-      level={3} // 지도의 확대 레벨
-    >
+    <Map id='map' center={center} className='h-full w-full' level={3}>
       <MapMarker position={center} />
     </Map>
   );
