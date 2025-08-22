@@ -7,7 +7,7 @@ interface RefreshTokenApiRequest {
 }
 
 interface RefreshTokenApiResponse {
-  accessToken: string;
+  newAccessToken: string;
 }
 
 export const refreshTokenApi = async ({
