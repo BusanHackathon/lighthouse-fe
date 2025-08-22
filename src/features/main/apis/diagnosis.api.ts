@@ -1,14 +1,22 @@
+import type { Landlord, LandlordPlace, LandlordTrust, RiskSummary } from '@/entities';
 import { fetchInstance } from '@/shared';
 
 import type { HouseType } from '../types';
 
 export const DIAGNOSIS_API_PATH = '/api/diagnosis';
 
-interface DiagnosisApiResponse {
+interface DiagnosisApiRequest {
   address: string;
   addressDetail: string;
   houseType: HouseType;
   deposit: number;
+}
+
+interface DiagnosisApiResponse {
+  riskSummary: RiskSummary;
+  landlord: Landlord;
+  landlordTrust: LandlordTrust;
+  landlordPlaces: LandlordPlace[];
 }
 
 export const diagnosisApi = async ({
@@ -16,7 +24,7 @@ export const diagnosisApi = async ({
   addressDetail,
   houseType,
   deposit,
-}: DiagnosisApiResponse) => {
+}: DiagnosisApiRequest) => {
   const response = await fetchInstance.post<DiagnosisApiResponse>(DIAGNOSIS_API_PATH, {
     address,
     addressDetail,
