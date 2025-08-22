@@ -1,6 +1,5 @@
 import { useRef } from 'react';
 
-import { useGetRefreshToken } from '@/entities';
 import {
   AlternativeSection,
   ChartSection,
@@ -10,18 +9,9 @@ import {
   MapSection,
   RiskAnalysisSummarySection,
 } from '@/features';
-import { authStorage } from '@/shared';
 
 export default function MainPage() {
   const riskAnalysisRef = useRef<HTMLDivElement>(null);
-
-  const { data: refreshTokenData } = useGetRefreshToken();
-
-  console.log(refreshTokenData);
-
-  if (refreshTokenData) {
-    authStorage.accessToken.set(JSON.stringify(refreshTokenData.accessToken));
-  }
 
   return (
     <div className='flex min-h-screen w-full flex-col'>

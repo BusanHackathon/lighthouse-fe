@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { useGetAuthTicket } from '@/entities';
+import { useGetAuthTicket, usePostRefreshToken } from '@/entities';
 import { ROUTER_PATH, Spinner, authStorage } from '@/shared';
 
 export default function OAuthRedirectPage() {
@@ -12,13 +12,15 @@ export default function OAuthRedirectPage() {
 
   const { data, isLoading } = useGetAuthTicket(ticket ?? '');
 
+  const { mutate: refreshTokenMutate } = usePostRefreshToken();
   useEffect(() => {
     if (data) {
       const refreshToken = data.refreshToken;
       authStorage.refreshToken.set(refreshToken);
+      refreshTokenMutate();
       navigate(ROUTER_PATH.ROOT, { replace: true });
     }
-  }, [data, navigate]);
+  }, [data, navigate, refreshTokenMutate]);
 
   if (!ticket) {
     return <div>로그인을 다시 진행해주세요.</div>;
