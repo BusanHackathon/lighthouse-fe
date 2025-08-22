@@ -1,3 +1,4 @@
+import { type RefObject } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,7 +18,11 @@ import {
   RentTypeField,
 } from '../../common';
 
-export const DiagnosticForm = () => {
+type Props = {
+  scrollToRiskAnalysis: RefObject<HTMLDivElement>;
+};
+
+export const DiagnosticForm = ({ scrollToRiskAnalysis }: Props) => {
   const { setDiagnosisData } = useHouseData();
 
   const form = useForm<SearchAddressType>({
@@ -40,6 +45,20 @@ export const DiagnosticForm = () => {
       }),
     onSuccess: (data) => {
       setDiagnosisData(data);
+
+      // 진단 완료 후 위험도 분석 섹션으로 스크롤
+      setTimeout(() => {
+        if (scrollToRiskAnalysis.current) {
+          const element = scrollToRiskAnalysis.current;
+          const elementTop = element.offsetTop;
+          const offset = 80;
+
+          window.scrollTo({
+            top: elementTop - offset,
+            behavior: 'smooth',
+          });
+        }
+      }, 100);
     },
   });
 

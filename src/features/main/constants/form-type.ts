@@ -9,7 +9,7 @@ export const FORM_FIELDS = {
 export const PLACEHOLDER_TEXTS = {
   ADDRESS: '주소를 알려주세요',
   HOUSE_TYPE: '주택유형을 알려주세요',
-  DETAIL_ADDRESS: '상세주소를 알려주세요.',
+  DETAIL_ADDRESS: '상세주소를 알려주세요',
   DEPOSIT: '전세금액',
 } as const;
 

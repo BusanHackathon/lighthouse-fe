@@ -1,33 +1,54 @@
 import { useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import { toast } from 'sonner';
-
-import { useKakaoCallback } from '@/entities';
-import { ROUTER_PATH, authStorage } from '@/shared';
+import { useGetAuthTicket, useGetRefreshToken } from '@/entities';
+import { ROUTER_PATH, Spinner, authStorage } from '@/shared';
 
 export default function OAuthRedirectPage() {
-  const [searchParams] = useSearchParams();
-
+  const location = useLocation();
   const navigate = useNavigate();
 
-  const ticket = searchParams.get('ticket');
+  const ticket = new URLSearchParams(location.search).get('ticket');
 
-  const { data, isSuccess, isError } = useKakaoCallback(ticket ?? '');
+  const { data, isLoading } = useGetAuthTicket(ticket ?? '');
 
   useEffect(() => {
-    if (isSuccess && data) {
-      authStorage.refreshToken.set(data.refreshToken);
-
-      navigate(ROUTER_PATH.ROOT);
+    if (data) {
+      const refreshToken = data.refreshToken;
+      authStorage.refreshToken.set(refreshToken);
+      navigate(ROUTER_PATH.ROOT, { replace: true });
     }
+  }, [data, navigate]);
 
-    if (isError) {
-      // 실패 시, 에러 처리 후 로그인 페이지로 이동
-      toast.error('카카오 로그인에 실패했습니다.');
-      navigate(ROUTER_PATH.LOGIN);
-    }
-  }, [isSuccess, isError, data, navigate]);
+  const { data: refreshTokenData, isLoading: isRefreshTokenLoading } = useGetRefreshToken();
 
-  return <div>로그인 중입니다...</div>;
+  if (!ticket) {
+    return <div>로그인을 다시 진행해주세요.</div>;
+  }
+
+  if (isLoading || isRefreshTokenLoading) {
+    return <Spinner />;
+  }
+
+  if (!data || !refreshTokenData) {
+    return <Spinner />;
+  }
+
+  if (refreshTokenData) {
+    authStorage.accessToken.set(refreshTokenData.accessToken);
+  }
+
+  return (
+    <div className='flex min-h-screen items-center justify-center'>
+      <div className='text-center'>
+        <div className='mb-4 text-2xl font-semibold'>
+          {isLoading ? '로그인 처리 중...' : '로그인 중입니다...'}
+        </div>
+
+        <div className='text-gray-500'>
+          {isLoading ? '서버와 통신 중입니다.' : '잠시만 기다려주세요.'}
+        </div>
+      </div>
+    </div>
+  );
 }
