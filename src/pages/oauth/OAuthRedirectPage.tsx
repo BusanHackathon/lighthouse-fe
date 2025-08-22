@@ -18,7 +18,7 @@ export default function OAuthRedirectPage() {
     mutationFn: () => refreshTokenApi({ refreshToken: authStorage.refreshToken.get() }),
     onSuccess: (data) => {
       console.log('AccessToken 발급 성공:', data);
-      authStorage.accessToken.set(data.accessToken);
+      authStorage.accessToken.set(data.newAccessToken);
       console.log('OAuthRedirectPage - Login completed successfully');
       navigate(ROUTER_PATH.ROOT, { replace: true });
     },
