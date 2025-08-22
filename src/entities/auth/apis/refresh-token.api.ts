@@ -16,7 +16,7 @@ export const refreshTokenApi = async ({
 }: RefreshTokenApiRequest): Promise<RefreshTokenApiResponse> => {
   const response = await fetchInstance.post<RefreshTokenApiResponse>(REFRESH_TOKEN_API_PATH(), {
     headers: {
-      Authorization: `Bearer ${refreshToken}`,
+      refreshToken,
     },
   });
 
