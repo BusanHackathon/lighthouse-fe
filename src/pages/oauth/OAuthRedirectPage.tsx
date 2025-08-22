@@ -15,7 +15,7 @@ export default function OAuthRedirectPage() {
   const { data, isLoading } = useGetAuthTicket(ticket ?? '');
 
   const { mutate: refreshTokenMutate, isPending: isRefreshing } = useMutation({
-    mutationFn: () => refreshTokenApi({ refreshToken: JSON.parse(authStorage.refreshToken.get()) }),
+    mutationFn: () => refreshTokenApi({ refreshToken: authStorage.refreshToken.get() }),
     onSuccess: (data) => {
       console.log('AccessToken 발급 성공:', data);
       authStorage.accessToken.set(data.newAccessToken);
