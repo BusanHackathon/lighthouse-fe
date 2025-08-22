@@ -35,7 +35,7 @@ fetchInstance.interceptors.response.use(
         return Promise.reject(error);
       }
 
-      const response = await fetch(`${BASE_URL}/auth/refresh`, {
+      const response = await fetch(`${BASE_URL}/api/auth/refresh`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
