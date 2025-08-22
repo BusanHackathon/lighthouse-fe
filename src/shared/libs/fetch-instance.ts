@@ -11,6 +11,7 @@ export const fetchInstance = initInstance({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
 });
 
 fetchInstance.interceptors.request.use(

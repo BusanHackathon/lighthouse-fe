@@ -7,8 +7,14 @@ interface RefreshTokenApiRequest {
 }
 
 interface RefreshTokenApiResponse {
-  message: string;
-  newAccessToken: string;
+  data: {
+    message: string;
+    newAccessToken: string;
+  };
+  status: string;
+  serverDateTime: string;
+  errorCode: string | null;
+  errorMessage: string | null;
 }
 
 export const refreshTokenApi = async ({
