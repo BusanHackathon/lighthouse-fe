@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { type AddressSearchResult, searchAddressToCoordinates } from '@/shared';
+import { type AddressSearchResult, searchAddressToCoordinates } from '@/entities';
 
 import { type SearchAddressType } from '../model';
 import { useMapAddress } from '../store';
@@ -9,6 +9,7 @@ import { useMapAddress } from '../store';
 export const useKakaoAddressSearch = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [searchResult, setSearchResult] = useState<AddressSearchResult | null>(null);
+
   const { setMapAddress } = useMapAddress();
 
   const form = useFormContext<SearchAddressType>();
