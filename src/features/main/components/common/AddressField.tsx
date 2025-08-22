@@ -1,7 +1,14 @@
 import DaumPostcode from 'react-daum-postcode';
 import { useFormContext } from 'react-hook-form';
 
-import { MapPin, X } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/shared/components/ui/dialog';
+import { MapPin } from 'lucide-react';
 
 import { Button, FormField, FormItem, FormLabel, FormMessage, Input } from '@/shared';
 
@@ -39,34 +46,25 @@ export const AddressField = () => {
               onClick={openSearch}
               className='cursor-pointer'
             />
-            <Button type='button' onClick={searchMap} className='w-12'>
+            <Button onClick={searchMap} className='w-12'>
               <MapPin className='size-4' />
             </Button>
           </div>
           <FormMessage />
 
-          {isOpen && (
-            <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50'>
-              <div className='mx-4 w-full max-w-md rounded-lg bg-white'>
-                <div className='scrollbar-hide flex items-center justify-between border-b py-3 pr-2 pl-5'>
-                  <h3 className='text-lg font-semibold'>주소 검색</h3>
-                  <Button
-                    type='button'
-                    variant='ghost'
-                    onClick={closeSearch}
-                    className='text-gray-500 hover:text-gray-700'
-                  >
-                    <X className='size-5' />
-                  </Button>
-                </div>
-                <DaumPostcode
-                  onComplete={completeAddress}
-                  onClose={closeSearch}
-                  style={{ width: '100%', height: '400px' }}
-                />
-              </div>
-            </div>
-          )}
+          <Dialog open={isOpen} onOpenChange={closeSearch}>
+            <DialogContent className='p-0 sm:max-w-md'>
+              <DialogHeader className='px-6 pt-6 pb-1'>
+                <DialogTitle>주소 검색</DialogTitle>
+                <DialogDescription>주소를 검색하여 선택해주세요.</DialogDescription>
+              </DialogHeader>
+              <DaumPostcode
+                onComplete={completeAddress}
+                onClose={closeSearch}
+                style={{ width: '100%', height: '450px' }}
+              />
+            </DialogContent>
+          </Dialog>
         </FormItem>
       )}
     />
