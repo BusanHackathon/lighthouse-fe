@@ -8,7 +8,8 @@ export const usePostRefreshToken = () => {
   return useMutation({
     mutationFn: () => refreshTokenApi({ refreshToken: authStorage.refreshToken.get() }),
     onSuccess: (data) => {
-      authStorage.accessToken.set(JSON.stringify(data.accessToken));
+      console.log(data);
+      authStorage.accessToken.set(data.newAccessToken);
     },
   });
 };
