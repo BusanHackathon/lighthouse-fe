@@ -10,6 +10,8 @@ export default function OAuthRedirectPage() {
 
   const ticket = new URLSearchParams(location.search).get('ticket');
 
+  localStorage.setItem('ticket', ticket ?? '');
+
   const { data, isLoading } = useGetAuthTicket(ticket ?? '');
 
   useEffect(() => {
