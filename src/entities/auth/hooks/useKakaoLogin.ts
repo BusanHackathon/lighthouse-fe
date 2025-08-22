@@ -26,6 +26,12 @@ export const useKakaoCallback = (ticket: string) => {
     queryKey: KakaoCallbackQueryKey.callback(ticket),
     queryFn: () => getTicketApi(ticket),
     retry: 0,
-    staleTime: Infinity,
+    enabled: !!ticket, // ticket이 있을 때만 API 호출
+  });
+};
+
+export const useGetTicket = (ticket: string) => {
+  return useMutation({
+    mutationFn: () => getTicketApi(ticket),
   });
 };
