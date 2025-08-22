@@ -17,8 +17,10 @@ export default function MainPage() {
 
   const { data: refreshTokenData } = useGetRefreshToken();
 
+  console.log(refreshTokenData);
+
   if (refreshTokenData) {
-    authStorage.accessToken.set(refreshTokenData.accessToken);
+    authStorage.accessToken.set(JSON.stringify(refreshTokenData.accessToken));
   }
 
   return (

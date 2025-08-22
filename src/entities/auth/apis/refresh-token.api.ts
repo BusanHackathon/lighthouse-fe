@@ -17,8 +17,5 @@ export const refreshTokenApi = async ({
     refreshToken,
   });
 
-  console.log(response.data);
-  localStorage.setItem('refreshToken', response.data.accessToken);
-
   return response.data;
 };

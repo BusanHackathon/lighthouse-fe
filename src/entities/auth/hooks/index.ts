@@ -1,3 +1,3 @@
 export * from './useGetAuthTicket';
 export * from './useKakaoLogin';
-export * from './useGetRefreshToken';
+export * from './usePostRefreshToken';
