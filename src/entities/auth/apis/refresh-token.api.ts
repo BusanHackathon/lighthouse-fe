@@ -1,6 +1,6 @@
 import { fetchInstance } from '@/shared';
 
-export const REFRESH_TOKEN_API_PATH = '/auth/refresh';
+export const REFRESH_TOKEN_API_PATH = '/api/auth/refresh';
 
 interface RefreshTokenApiRequest {
   refreshToken: string;

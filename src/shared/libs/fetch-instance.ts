@@ -8,7 +8,7 @@ export const BASE_URL = 'http://43.200.101.253';
 // export const BASE_URL = 'http://localhost:8080';
 
 export const fetchInstance = initInstance({
-  baseURL: '/api',
+  baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },

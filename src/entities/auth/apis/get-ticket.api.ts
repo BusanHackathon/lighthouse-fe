@@ -1,6 +1,6 @@
 import { fetchInstance } from '@/shared';
 
-export const GET_TICKET_API_PATH = () => '/auth/ticket';
+export const GET_TICKET_API_PATH = () => '/api/auth/ticket';
 
 interface GetTicketApiResponse {
   refreshToken: string;
