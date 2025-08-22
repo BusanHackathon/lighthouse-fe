@@ -15,7 +15,7 @@ export const RiskAnalysisSummarySection = () => {
   const data = diagnosisData || DEFAULT_RISK_ANALYSIS_DATA.data;
 
   // 데이터 구조 검증
-  if (!data?.riskSummary?.score || !data?.riskSummary?.factors) {
+  if (data?.riskSummary?.score === null || !data?.riskSummary?.factors) {
     return <div className='text-red-500'>데이터 구조가 올바르지 않습니다.</div>;
   }
 
