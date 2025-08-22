@@ -9,6 +9,7 @@ export const TEMP_RISK_ANALYSIS_DATA: RiskAnalysisResponse[] = [
     data: {
       riskSummary: {
         score: 50,
+        grade: 'B',
         factors: [
           { name: '전세가율', percent: 12 },
           { name: '가격하락', percent: 10 },
