@@ -1,7 +1,7 @@
-import type { RiskFactor } from '@/entities';
+import type { Factor } from '@/entities';
 
 type Props = {
-  riskFactors: RiskFactor[];
+  riskFactors: Factor[];
 };
 
 export const RiskFactorsBox = ({ riskFactors }: Props) => {
