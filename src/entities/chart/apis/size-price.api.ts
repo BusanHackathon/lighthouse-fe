@@ -9,8 +9,8 @@ interface SizePriceApiResponse {
   changerate: number;
 }
 
-export const sizePriceApi = async (): Promise<SizePriceApiResponse> => {
-  const response = await fetchInstance.get<SizePriceApiResponse>(SIZE_PRICE_API_PATH);
+export const sizePriceApi = async (): Promise<SizePriceApiResponse[]> => {
+  const response = await fetchInstance.get<SizePriceApiResponse[]>(SIZE_PRICE_API_PATH);
 
   return response.data;
 };
