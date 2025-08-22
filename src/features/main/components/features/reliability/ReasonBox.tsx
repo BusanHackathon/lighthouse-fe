@@ -11,7 +11,7 @@ export const ReasonBox = () => {
         >
           <div className='size-1 rounded-full bg-black' />
           <span className='flex items-center gap-2 text-gray-900'>
-            <span className='text-lg text-lighthouse-blue'>{reason.name}</span>
+            <span className='text-lg text-black'>{reason.name}</span>
             <div className='flex items-center gap-1'>
               <span className='font-medium text-red-500'>{reason.percent}</span>
               <span className='text-black'>%</span>
