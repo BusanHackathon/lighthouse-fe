@@ -1,6 +1,6 @@
 import { fetchInstance } from '@/shared';
 
-export const SIZE_PRICE_API_PATH = '/graph/sizePriceIndex';
+export const SIZE_PRICE_API_PATH = '/api/graph/sizePriceIndex';
 
 interface SizePriceApiResponse {
   month: string;
@@ -11,6 +11,5 @@ interface SizePriceApiResponse {
 
 export const sizePriceApi = async (): Promise<SizePriceApiResponse[]> => {
   const response = await fetchInstance.get<SizePriceApiResponse[]>(SIZE_PRICE_API_PATH);
-
   return response.data;
 };

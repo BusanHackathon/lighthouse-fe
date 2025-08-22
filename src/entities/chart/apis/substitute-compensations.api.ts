@@ -1,6 +1,6 @@
 import { fetchInstance } from '@/shared';
 
-export const SUBSTITUTE_COMPENSATIONS_API_PATH = '/graph/substituteCompensations';
+export const SUBSTITUTE_COMPENSATIONS_API_PATH = '/api/graph/substituteCompensations';
 
 interface SubstituteCompensationsApiResponse {
   month: string;

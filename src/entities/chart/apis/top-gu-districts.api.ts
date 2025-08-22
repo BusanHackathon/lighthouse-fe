@@ -1,6 +1,6 @@
 import { fetchInstance } from '@/shared';
 
-export const TOP_GU_DISTRICTS_API_PATH = '/graph/risk/topGuDistricts';
+export const TOP_GU_DISTRICTS_API_PATH = '/api/graph/risk/topGuDistricts';
 
 export interface TopGuDistrictsApiResponse {
   month: string;
