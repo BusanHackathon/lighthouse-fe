@@ -1,10 +1,12 @@
+import { forwardRef } from 'react';
+
 import { Spinner } from '@/shared';
 
 import { RiskChartBox, RiskFactorsBox } from '../components';
 import { DEFAULT_RISK_ANALYSIS_DATA } from '../mock/risk-analysis.mock';
 import { useHouseData } from '../store';
 
-export const RiskAnalysisSummarySection = () => {
+export const RiskAnalysisSummarySection = forwardRef<HTMLDivElement>((_, ref) => {
   const { diagnosisData, isLoading, error } = useHouseData();
 
   if (isLoading) return <Spinner />;
@@ -20,7 +22,10 @@ export const RiskAnalysisSummarySection = () => {
   }
 
   return (
-    <div className='mx-auto mt-10 flex w-full max-w-7xl rounded-lg bg-white shadow-[0px_4px_30px_0px_#0000001A]'>
+    <div
+      ref={ref}
+      className='mx-auto mt-10 flex w-full max-w-7xl rounded-lg bg-white shadow-[0px_4px_30px_0px_#0000001A]'
+    >
       {/* 메인 위험도 분석 섹션 */}
       <div className='flex w-full justify-between px-10 pt-5'>
         {/* 왼쪽: 위험도 게이지 */}
@@ -30,4 +35,6 @@ export const RiskAnalysisSummarySection = () => {
       </div>
     </div>
   );
-};
+});
+
+RiskAnalysisSummarySection.displayName = 'RiskAnalysisSummarySection';
