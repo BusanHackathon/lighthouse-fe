@@ -41,7 +41,6 @@ export const DiagnosticForm = () => {
     diagnosisMutate(data);
   };
 
-  //TODO: 추후 Form 컴포넌트로 리팩토링
   return (
     <Form {...form}>
       <form
