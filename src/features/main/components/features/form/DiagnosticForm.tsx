@@ -1,10 +1,13 @@
 import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
 
 import { Button, Form } from '@/shared';
 
+import { diagnosisApi } from '../../../apis';
 import { type SearchAddressType, searchAddressSchema } from '../../../model';
+import type { HouseType } from '../../../types';
 import {
   AddressField,
   DepositField,
@@ -24,8 +27,18 @@ export const DiagnosticForm = () => {
     },
   });
 
+  const { mutate: diagnosisMutate } = useMutation({
+    mutationFn: (data: SearchAddressType) =>
+      diagnosisApi({
+        address: data.address,
+        addressDetail: data.detailAddress,
+        houseType: data.houseType as HouseType,
+        deposit: data.deposit,
+      }),
+  });
+
   const onSubmit = (data: SearchAddressType) => {
-    console.log(data);
+    diagnosisMutate(data);
   };
 
   //TODO: 추후 Form 컴포넌트로 리팩토링
