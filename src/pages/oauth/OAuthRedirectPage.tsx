@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { refreshTokenApi, useGetAuthTicket } from '@/entities';
@@ -7,6 +7,7 @@ import { ROUTER_PATH, Spinner, authStorage } from '@/shared';
 export default function OAuthRedirectPage() {
   const location = useLocation();
   const navigate = useNavigate();
+  const [isGettingAccessToken, setIsGettingAccessToken] = useState(false);
 
   const ticket = new URLSearchParams(location.search).get('ticket');
 
@@ -14,8 +15,9 @@ export default function OAuthRedirectPage() {
 
   useEffect(() => {
     const completeLogin = async () => {
-      if (data?.refreshToken) {
+      if (data?.refreshToken && !isGettingAccessToken) {
         try {
+          setIsGettingAccessToken(true);
           console.log('OAuthRedirectPage - Got refreshToken, getting accessToken');
 
           // 1. refreshToken 저장
@@ -35,6 +37,7 @@ export default function OAuthRedirectPage() {
           navigate(ROUTER_PATH.ROOT, { replace: true });
         } catch (error) {
           console.error('OAuthRedirectPage - Failed to get accessToken:', error);
+          setIsGettingAccessToken(false);
           // 에러 발생 시 로그인 페이지로 리다이렉트
           navigate(ROUTER_PATH.LOGIN, { replace: true });
         }
@@ -42,18 +45,20 @@ export default function OAuthRedirectPage() {
     };
 
     completeLogin();
-  }, [data, navigate]);
+  }, [data, navigate, isGettingAccessToken]);
 
   if (!ticket) {
     return <div>로그인을 다시 진행해주세요.</div>;
   }
 
-  if (isLoading) {
+  if (isLoading || isGettingAccessToken) {
     return (
       <div className='flex min-h-screen items-center justify-center'>
         <div className='text-center'>
           <Spinner />
-          <div className='mt-4 text-lg font-semibold'>로그인 처리 중...</div>
+          <div className='mt-4 text-lg font-semibold'>
+            {isGettingAccessToken ? '액세스 토큰 발급 중...' : '로그인 처리 중...'}
+          </div>
           <div className='text-gray-500'>서버와 통신 중입니다.</div>
         </div>
       </div>
