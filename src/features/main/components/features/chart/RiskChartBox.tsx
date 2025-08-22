@@ -24,7 +24,7 @@ export const RiskChartBox = ({ riskScore, title }: Props) => {
   const needleAngle = getGaugeAngle(riskScore);
 
   return (
-    <div className='w-full rounded-lg bg-white p-6'>
+    <div className='w-full rounded-lg bg-white pt-6'>
       <h3 className='mb-2 text-2xl font-bold text-gray-900'>{title}</h3>
       <p className='text-md mb-6 flex items-center gap-2 text-gray-600'>
         <span className='font-semibold'>위험 점수 :</span>
