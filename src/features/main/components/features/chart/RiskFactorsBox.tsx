@@ -13,9 +13,9 @@ export const RiskFactorsBox = ({ riskFactors }: Props) => {
           <div key={factor.name} className='flex items-center gap-5 py-3 text-center font-semibold'>
             <div className='size-1 rounded-full bg-black' />
             <span className='flex items-center gap-2 text-gray-900'>
-              <span className='text-lg text-lighthouse-blue'>{factor.name}</span>
-              <div className='flex items-center gap-1'>
-                <span className='font-medium text-red-500'>{factor.percent}</span>
+              <span className='text-lg text-black'>{factor.name}</span>
+              <div className='flex items-center gap-1 font-semibold'>
+                <span className='text-red-500'>{factor.percent}</span>
                 <span className='text-black'>%</span>
               </div>
             </span>
