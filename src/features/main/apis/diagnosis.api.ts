@@ -3,7 +3,7 @@ import { fetchInstance } from '@/shared';
 
 import type { HouseType } from '../types';
 
-export const DIAGNOSIS_API_PATH = '/api/diagnosis';
+export const DIAGNOSIS_API_PATH = '/diagnosis';
 
 interface DiagnosisApiRequest {
   address: string;
