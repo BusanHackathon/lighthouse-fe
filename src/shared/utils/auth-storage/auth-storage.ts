@@ -9,7 +9,7 @@ const initStorage = <T extends keyof AuthStorageKey>(key: T, storage: Storage) =
   const get = (): AuthStorageKey[T] => {
     const value = storage.getItem(storageKey);
 
-    return JSON.parse(value as string);
+    return value as AuthStorageKey[T];
   };
 
   const set = (value: AuthStorageKey[T]) => {
@@ -17,9 +17,7 @@ const initStorage = <T extends keyof AuthStorageKey>(key: T, storage: Storage) =
       return storage.removeItem(storageKey);
     }
 
-    const stringifiedValue = JSON.stringify(value);
-
-    storage.setItem(storageKey, stringifiedValue);
+    storage.setItem(storageKey, String(value));
   };
 
   return { get, set };
