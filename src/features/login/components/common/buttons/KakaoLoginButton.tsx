@@ -1,10 +1,11 @@
-import { BASE_URL, Button } from '@/shared';
+import { Button } from '@/shared';
 
 import KakaoSymbol from '../../../_assets/kakao-symbol.webp';
 
 export const KakaoLoginButton = () => {
   const startKakaoLogin = () => {
-    window.location.href = `${BASE_URL}/oauth2/authorization/kakao`;
+    // 카카오 OAuth는 백엔드 서버를 통해 처리되어야 함
+    window.location.href = 'http://43.200.101.253/oauth2/authorization/kakao';
   };
 
   return (
