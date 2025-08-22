@@ -17,8 +17,8 @@ export default function MainPage() {
       </div>
       <RiskAnalysisSummarySection />
       <ChartSection />
-      <LandlordReliabilitySection />
       <LandlordPropertySection />
+      <LandlordReliabilitySection />
       <AlternativeSection />
     </div>
   );
