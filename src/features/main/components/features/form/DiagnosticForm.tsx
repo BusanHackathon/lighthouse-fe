@@ -7,6 +7,7 @@ import { Button, Form } from '@/shared';
 
 import { diagnosisApi } from '../../../apis';
 import { type SearchAddressType, searchAddressSchema } from '../../../model';
+import { useHouseData } from '../../../store';
 import type { HouseType } from '../../../types';
 import {
   AddressField,
@@ -17,6 +18,8 @@ import {
 } from '../../common';
 
 export const DiagnosticForm = () => {
+  const { setDiagnosisData } = useHouseData();
+
   const form = useForm<SearchAddressType>({
     resolver: zodResolver(searchAddressSchema),
     defaultValues: {
@@ -35,6 +38,9 @@ export const DiagnosticForm = () => {
         houseType: data.houseType as HouseType,
         deposit: data.deposit,
       }),
+    onSuccess: (data) => {
+      setDiagnosisData(data);
+    },
   });
 
   const onSubmit = (data: SearchAddressType) => {
