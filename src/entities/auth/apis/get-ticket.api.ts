@@ -1,16 +1,17 @@
 import { fetchInstance } from '@/shared';
 
-export const GET_TICKET_API_PATH = '/api/auth/ticket';
+export const GET_TICKET_API_PATH = () => '/auth/ticket';
 
 interface GetTicketApiResponse {
   refreshToken: string;
 }
 
 export const getTicketApi = async (ticket: string): Promise<GetTicketApiResponse> => {
-  const response = await fetchInstance.get<GetTicketApiResponse>(GET_TICKET_API_PATH, {
+  const response = await fetchInstance.get<GetTicketApiResponse>(GET_TICKET_API_PATH(), {
     params: {
       ticket,
     },
   });
+
   return response.data;
 };
