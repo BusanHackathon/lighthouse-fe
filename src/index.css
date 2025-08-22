@@ -131,8 +131,8 @@
   --sidebar-ring: oklch(0.708 0 0);
   --risk-very-danger: #ff6f6f;
   --risk-danger: #ffba6f;
-  --risk-good: #ffe93f;
-  --risk-safe: #d9ff41;
+  --risk-good: #f5e03c;
+  --risk-safe: #d0f14f;
   --risk-very-safe: #2cdf44;
 }
 
