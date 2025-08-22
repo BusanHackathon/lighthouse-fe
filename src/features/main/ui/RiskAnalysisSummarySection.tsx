@@ -6,9 +6,9 @@ export const RiskAnalysisSummarySection = () => {
   const currentData = DEFAULT_RISK_ANALYSIS_DATA; // 사진과 일치하는 기본 데이터
 
   return (
-    <div className='mx-auto my-10 flex w-full max-w-7xl rounded-lg bg-white shadow-[0px_4px_30px_0px_#0000001A]'>
+    <div className='mx-auto mt-10 flex w-full max-w-7xl rounded-lg bg-white shadow-[0px_4px_30px_0px_#0000001A]'>
       {/* 메인 위험도 분석 섹션 */}
-      <div className='flex w-full justify-between p-5'>
+      <div className='flex w-full justify-between px-10 pt-5'>
         {/* 왼쪽: 위험도 게이지 */}
         <RiskChartBox
           riskScore={currentData.data.riskSummary.score}
