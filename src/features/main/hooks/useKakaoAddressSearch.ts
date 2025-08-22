@@ -38,7 +38,9 @@ export const useKakaoAddressSearch = () => {
           longitude: result.data.longitude,
         });
       }
-    } catch {
+    } catch (error) {
+      console.error('주소 검색 중 예기치 않은 오류 발생:', error);
+
       setSearchResult({
         success: false,
         error: '주소 검색 중 오류가 발생했습니다.',
