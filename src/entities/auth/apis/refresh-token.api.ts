@@ -14,11 +14,15 @@ interface RefreshTokenApiResponse {
 export const refreshTokenApi = async ({
   refreshToken,
 }: RefreshTokenApiRequest): Promise<RefreshTokenApiResponse> => {
-  const response = await fetchInstance.post<RefreshTokenApiResponse>(REFRESH_TOKEN_API_PATH(), {
-    headers: {
-      refreshToken,
+  const response = await fetchInstance.post<RefreshTokenApiResponse>(
+    REFRESH_TOKEN_API_PATH(),
+    {},
+    {
+      headers: {
+        refreshToken,
+      },
     },
-  });
+  );
 
   return response.data;
 };
