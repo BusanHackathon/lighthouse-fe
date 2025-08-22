@@ -53,7 +53,7 @@ export const useHouseData = create<HouseDataState>()(
       },
 
       resetState: () => {
-        set({ diagnosisData: null });
+        set({ diagnosisData: null, isLoading: false, error: null });
       },
 
       setLoading: (loading: boolean) => {
