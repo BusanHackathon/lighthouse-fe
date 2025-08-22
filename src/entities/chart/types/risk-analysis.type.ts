@@ -2,19 +2,17 @@
  * 위험도 분석 관련 entities
  */
 
-// 위험 요인
-export type RiskFactor = {
+export type Factor = {
   name: string;
   percent: number;
 };
 
-// 위험도 요약
 export type RiskSummary = {
   score: number;
-  factors: RiskFactor[];
+  grade: string;
+  factors: Factor[];
 };
 
-// 임대인 정보
 export type Landlord = {
   landlordId: number;
   name: string;
@@ -25,7 +23,6 @@ export type Landlord = {
   updatedAt: string;
 };
 
-// 임대인 신뢰도
 export type LandlordTrust = {
   trustScore: number;
   subrogationCount: number;
@@ -35,7 +32,6 @@ export type LandlordTrust = {
   grade: string;
 };
 
-// 임대인 소유 매물
 export type LandlordPlace = {
   placeId: number;
   label: string;

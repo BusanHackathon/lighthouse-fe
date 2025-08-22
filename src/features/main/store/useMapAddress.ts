@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
 
 import type { MapAddress } from '@/entities';
 
@@ -11,40 +12,47 @@ type MapAddressState = {
   updateAddress: (address: string) => void;
 };
 
-export const useMapAddress = create<MapAddressState>()((set, get) => ({
-  mapAddress: null,
+export const useMapAddress = create<MapAddressState>()(
+  devtools(
+    (set, get) => ({
+      mapAddress: null,
 
-  setMapAddress: (address: MapAddress) => {
-    set({ mapAddress: address });
-  },
+      setMapAddress: (address: MapAddress) => {
+        set({ mapAddress: address });
+      },
 
-  clearMapAddress: () => {
-    set({ mapAddress: null });
-  },
+      clearMapAddress: () => {
+        set({ mapAddress: null });
+      },
 
-  updateCoordinates: (latitude: number, longitude: number) => {
-    const currentAddress = get().mapAddress;
-    if (currentAddress) {
-      set({
-        mapAddress: {
-          ...currentAddress,
-          latitude,
-          longitude,
-        },
-      });
-    }
-  },
+      updateCoordinates: (latitude: number, longitude: number) => {
+        const currentAddress = get().mapAddress;
+        if (currentAddress) {
+          set({
+            mapAddress: {
+              ...currentAddress,
+              latitude,
+              longitude,
+            },
+          });
+        }
+      },
 
-  updateAddress: (address: string) => {
-    const currentAddress = get().mapAddress;
+      updateAddress: (address: string) => {
+        const currentAddress = get().mapAddress;
 
-    if (currentAddress) {
-      set({
-        mapAddress: {
-          ...currentAddress,
-          address,
-        },
-      });
-    }
-  },
-}));
+        if (currentAddress) {
+          set({
+            mapAddress: {
+              ...currentAddress,
+              address,
+            },
+          });
+        }
+      },
+    }),
+    {
+      name: 'map-address-store', // Redux DevTools에서 표시될 이름
+    },
+  ),
+);

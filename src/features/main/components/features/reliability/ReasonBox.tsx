@@ -1,10 +1,12 @@
 import { RELIABILITY_REASONS } from '../../../mock';
 
 export const ReasonBox = () => {
+  const data = RELIABILITY_REASONS;
+
   return (
     <div className='flex w-full flex-col gap-2 pb-3'>
       <h1 className='text-3xl font-bold'>임대인 신뢰도 등급 사유</h1>
-      {RELIABILITY_REASONS.map((reason, index) => (
+      {data.map((reason, index) => (
         <div
           key={`${reason.name}-${reason.percent}-${index}`}
           className='flex items-center gap-5 py-3 text-center font-semibold'
