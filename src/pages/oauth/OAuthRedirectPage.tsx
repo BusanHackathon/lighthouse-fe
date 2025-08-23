@@ -19,6 +19,7 @@ export default function OAuthRedirectPage() {
     onSuccess: (data) => {
       console.log('AccessToken 발급 성공:', data);
       authStorage.accessToken.set(data.newAccessToken);
+      localStorage.setItem('accessToken', data.newAccessToken);
       console.log('OAuthRedirectPage - Login completed successfully');
       navigate(ROUTER_PATH.ROOT, { replace: true });
     },
