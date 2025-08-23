@@ -59,7 +59,7 @@ export const SubstituteCompensationsSection = () => {
     : [];
 
   return (
-    <div className='mx-auto my-10 w-full max-w-7xl rounded-lg bg-white px-15 pt-10 shadow-[0px_4px_30px_0px_#0000001A]'>
+    <div className='mx-auto w-full max-w-7xl rounded-lg bg-white px-15 pt-10 pb-5 shadow-[0px_4px_30px_0px_#0000001A]'>
       <SubstituteCompensationsChartBox
         title='부산 대위변제 발생 건수'
         chartData={chartData}

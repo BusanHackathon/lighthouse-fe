@@ -7,6 +7,7 @@ import {
   LandlordReliabilitySection,
   MapSection,
   RiskAnalysisSummarySection,
+  RiskGuRankSection,
   SizePriceSection,
   SubstituteCompensationsSection,
 } from '@/features';
@@ -21,8 +22,11 @@ export default function MainPage() {
         <MapSection />
       </div>
       <RiskAnalysisSummarySection ref={riskAnalysisRef} />
-      <SubstituteCompensationsSection />
-      <SizePriceSection />
+      <div className='flex flex-col gap-10'>
+        <SubstituteCompensationsSection />
+        <SizePriceSection />
+        <RiskGuRankSection />
+      </div>
       <LandlordReliabilitySection />
       <LandlordPropertySection />
       <AlternativeSection />

@@ -7,3 +7,4 @@ export * from './AlternativeSection';
 export * from './SubstituteCompensationsSection';
 export * from './GraphGuSection';
 export * from './SizePriceSection';
+export * from './RiskGuRankSection';
