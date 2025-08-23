@@ -1,10 +1,17 @@
-import type { LandlordTrust } from '@/entities';
 import { getTrustGradeColorClass } from '@/shared';
 
 import { LANDLORD_TRUST_DATA } from '../../../mock';
 
+type GradeData = {
+  trustScore: number;
+  accidentPts: number;
+  policyPts: number;
+  leveragePts: number;
+  grade: string;
+};
+
 type Props = {
-  gradeData: LandlordTrust;
+  gradeData: GradeData;
 };
 
 export const GradeBox = ({ gradeData }: Props) => {

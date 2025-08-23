@@ -20,8 +20,8 @@ export const LandlordReliabilitySection = () => {
       <div className='grid grid-cols-1 gap-6 lg:grid-cols-2'>
         <GradeBox gradeData={diagnosisData.landlordTrust} />
         <ReasonBox />
-        <SubrogationPaymentBox subrogationData={diagnosisData.landlordTrust.subrogationCount} />
-        <MultiHouseBox multiHouseData={diagnosisData.landlordTrust} />
+        <SubrogationPaymentBox subrogationData={13} />
+        <MultiHouseBox />
       </div>
     </div>
   );
