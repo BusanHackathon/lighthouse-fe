@@ -125,7 +125,7 @@ export const RiskGuRankBox = ({
         </div>
       )}
 
-      <GraphGuBox selectedGu={selectedGu?.regionGu} selectedMonth={selectedMonth} />
+      <GraphGuBox selectedGu={selectedGu?.regionGu} />
 
       <div className='flex justify-end'>
         <Button
