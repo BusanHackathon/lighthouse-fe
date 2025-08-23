@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
+import { convertToJibunAddress } from '@/entities';
+
 import type { SearchAddressType } from '../model';
 import type { AddressType } from '../types';
 
@@ -27,7 +29,7 @@ export const useAddressSearch = () => {
     };
   }, [isOpen]);
 
-  const completeAddress = (data: AddressType) => {
+  const completeAddress = async (data: AddressType) => {
     let fullAddress = data.address;
     let extraAddress = '';
 
@@ -39,9 +41,27 @@ export const useAddressSearch = () => {
         extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
       }
       fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+
+      // 도로명 주소인 경우 지번 주소로 변환 시도
+      try {
+        const jibunResult = await convertToJibunAddress(fullAddress);
+        if (jibunResult.success && jibunResult.data) {
+          // 지번 주소로 변환 성공 시 지번 주소 사용
+          form.setValue('address', jibunResult.data.address);
+        } else {
+          // 변환 실패 시 원래 주소 사용
+          form.setValue('address', fullAddress);
+        }
+      } catch (error) {
+        console.error('주소 변환 중 오류:', error);
+        // 오류 발생 시 원래 주소 사용
+        form.setValue('address', fullAddress);
+      }
+    } else {
+      // 지번 주소인 경우 그대로 사용
+      form.setValue('address', fullAddress);
     }
 
-    form.setValue('address', fullAddress);
     setIsOpen(false);
   };
 
