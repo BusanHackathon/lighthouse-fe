@@ -40,8 +40,6 @@ export const DiagnosticForm = ({ scrollToRiskAnalysis }: Props) => {
     onSuccess: (data) => {
       setDiagnosisData(data);
 
-      console.log(data);
-
       // 진단 완료 후 위험도 분석 섹션으로 스크롤
       setTimeout(() => {
         if (scrollToRiskAnalysis.current) {

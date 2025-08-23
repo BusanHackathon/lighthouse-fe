@@ -22,8 +22,7 @@ export const CertificationForm = ({ onSuccess }: props) => {
   const onSubmit = async (data: RealtorCertificationFormData) => {
     try {
       // TODO: API 호출 로직 구현
-      console.log('제출할 데이터:', data);
-
+      console.log(data);
       // API 호출 시뮬레이션
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
