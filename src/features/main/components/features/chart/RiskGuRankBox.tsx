@@ -93,12 +93,13 @@ export const RiskGuRankBox = ({
       </div>
 
       <div className='flex justify-end'>
-        <button
+        <Button
+          variant='ghost'
           onClick={toggleExpanded}
-          className='text-sm font-medium text-gray-700 hover:text-gray-900 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none'
+          className='text-sm font-medium text-gray-700 hover:bg-white hover:text-gray-900 active:bg-white'
         >
           {isExpanded ? '접기' : '더보기'}
-        </button>
+        </Button>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { useGetTopGus } from '@/entities';
+import { Spinner } from '@/shared';
 
 import { RiskGuRankBox } from '../components';
 
@@ -25,10 +26,6 @@ export const RiskGuRankSection = () => {
     limit: selectedLimit,
   });
 
-  console.log('Top Gus Data:', topGusData);
-  console.log('Loading:', isLoading);
-  console.log('Error:', error);
-
   const handleYearChange = (year: string) => {
     setSelectedYear(year);
   };
@@ -45,7 +42,7 @@ export const RiskGuRankSection = () => {
     return (
       <div className='mx-auto w-full max-w-7xl rounded-lg bg-white px-15 py-10 shadow-[0px_4px_30px_0px_#0000001A]'>
         <div className='flex h-[400px] w-full items-center justify-center'>
-          <div>로딩 중...</div>
+          <Spinner />
         </div>
       </div>
     );
