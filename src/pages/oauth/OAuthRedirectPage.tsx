@@ -16,16 +16,19 @@ export default function OAuthRedirectPage() {
 
   const { mutate: refreshTokenMutate, isPending: isRefreshing } = useMutation({
     mutationFn: () => refreshTokenApi({ refreshToken: authStorage.refreshToken.get() }),
-    onSuccess: (data) => {
-      console.log('AccessToken 발급 성공:', data);
+    onSuccess: (response) => {
+      console.log('AccessToken 발급 성공:', response);
+
+      // API 응답 구조에 맞게 data.newAccessToken으로 접근
+      const newAccessToken = response.data?.newAccessToken;
 
       // newAccessToken이 유효한 값인지 확인 후 저장
-      if (data.newAccessToken && data.newAccessToken !== 'undefined') {
-        authStorage.accessToken.set(data.newAccessToken);
+      if (newAccessToken && newAccessToken !== 'undefined') {
+        authStorage.accessToken.set(newAccessToken);
         console.log('OAuthRedirectPage - Login completed successfully');
         navigate(ROUTER_PATH.ROOT, { replace: true });
       } else {
-        console.error('AccessToken이 유효하지 않습니다:', data.newAccessToken);
+        console.error('AccessToken이 유효하지 않습니다:', newAccessToken);
         navigate(ROUTER_PATH.LOGIN, { replace: true });
       }
     },

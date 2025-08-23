@@ -6,9 +6,17 @@ interface RefreshTokenApiRequest {
   refreshToken: string;
 }
 
-interface RefreshTokenApiResponse {
+interface RefreshTokenApiData {
   message: string;
   newAccessToken: string;
+}
+
+interface RefreshTokenApiResponse {
+  data: RefreshTokenApiData;
+  status: string;
+  serverDateTime: string;
+  errorCode: string | null;
+  errorMessage: string | null;
 }
 
 export const refreshTokenApi = async ({
