@@ -9,3 +9,5 @@ export * from './HouseTypeField';
 export * from './DetailAddressField';
 export * from './DepositField';
 export * from './RentTypeField';
+export * from './RiskInfo';
+export * from './DongChart';

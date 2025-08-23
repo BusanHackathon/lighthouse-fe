@@ -3,6 +3,10 @@ import { useState } from 'react';
 import { ALL_GU_LIST, LIMIT_LIST, MONTH_LIST, type TopGusApiData } from '@/entities';
 import { Button, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared';
 
+import { RiskInfo } from '../../common';
+
+import { GraphGuBox } from './GraphGuBox';
+
 type Props = {
   selectedYear?: string;
   selectedMonth?: string;
@@ -23,6 +27,7 @@ export const RiskGuRankBox = ({
   onLimitChange,
 }: Props) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [selectedGu, setSelectedGu] = useState<TopGusApiData | null>(null);
 
   // API 데이터에서 구 이름 추출
   const apiGuList = guList.map((item) => item.regionGu);
@@ -36,10 +41,15 @@ export const RiskGuRankBox = ({
     setIsExpanded(!isExpanded);
   };
 
+  const selectGu = (guName: string) => {
+    const selectedGuData = guList.find((item) => item.regionGu === guName);
+    setSelectedGu(selectedGuData || null);
+  };
+
   return (
     <div className='w-full'>
       <div className='mb-4 flex items-center justify-between'>
-        <h3 className='text-2xl font-bold text-gray-900'>위험 구 순위</h3>
+        <h3 className='text-2xl font-bold text-gray-900'>거래가 괴리율 순위</h3>
         <div className='flex items-center gap-2'>
           <Select value={selectedYear || '2024'} onValueChange={onYearChange}>
             <SelectTrigger className='w-[100px] border-1 border-gray-300 shadow-none'>
@@ -81,16 +91,41 @@ export const RiskGuRankBox = ({
       </div>
 
       <div className='mb-4 grid grid-cols-5 gap-2'>
-        {displayedGuList.map((gu, index) => (
-          <Button
-            variant='secondary'
-            key={index}
-            className='rounded-lg px-2 py-2 text-sm font-medium text-gray-700 transition-colors focus:border-2 focus:border-gray-200 focus:bg-white'
-          >
-            {gu}
-          </Button>
-        ))}
+        {displayedGuList.map((gu, index) => {
+          const isSelected = selectedGu?.regionGu === gu;
+
+          return (
+            <Button
+              variant='secondary'
+              key={index}
+              onClick={() => selectGu(gu)}
+              className={`rounded-lg px-2 py-2 text-sm font-medium transition-colors focus:border-2 focus:border-gray-200 focus:bg-white ${
+                isSelected ? 'border-blue-300 bg-blue-100 text-blue-700' : 'text-gray-700'
+              }`}
+            >
+              {gu}
+            </Button>
+          );
+        })}
       </div>
+
+      {selectedGu && (
+        <div className='mb-4 h-[133px] w-[200px] rounded-lg border border-gray-200 p-4'>
+          <div className='mb-4 text-lg font-semibold text-gray-900'>
+            {selectedGu.regionGu} 위험도 정보
+          </div>
+          <div className='flex justify-start'>
+            <RiskInfo
+              riskLevel={
+                selectedGu.riskLevel as 'STABLE' | 'MEDIUM_RISK' | 'HIGH_RISK' | 'LOW_RISK'
+              }
+              transactionGapRate={Math.abs(selectedGu.divergencePct).toFixed(1)}
+            />
+          </div>
+        </div>
+      )}
+
+      <GraphGuBox selectedGu={selectedGu?.regionGu} selectedMonth={selectedMonth} />
 
       <div className='flex justify-end'>
         <Button

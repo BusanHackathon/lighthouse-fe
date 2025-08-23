@@ -3,7 +3,6 @@ import { useRef } from 'react';
 import {
   AlternativeSection,
   InputSection,
-  LandlordPropertySection,
   LandlordReliabilitySection,
   MapSection,
   RiskAnalysisSummarySection,
@@ -28,7 +27,6 @@ export default function MainPage() {
         <RiskGuRankSection />
       </div>
       <LandlordReliabilitySection />
-      <LandlordPropertySection />
       <AlternativeSection />
     </div>
   );

@@ -4,7 +4,7 @@ import type { Period } from '../types';
 
 export const GRAPH_GU_API_PATH = (gu: string) => `/api/graph/gu/${gu}`;
 
-export interface GraphGuApiResponse extends Period {
+export interface GraphGuApiData extends Period {
   gu: string;
   dongs: {
     month: string;
@@ -30,11 +30,20 @@ export interface GraphGuApiResponse extends Period {
   }[];
 }
 
-export interface GraphGuAPIParams extends Period {
+export interface GraphGuApiResponse {
+  data: GraphGuApiData;
+  status: string;
+  serverDateTime: string;
+  errorCode: string | null;
+  errorMessage: string | null;
+}
+
+export interface GraphGuAPIParams {
   gu: string;
-  dong: string;
-  from: string;
-  to: string;
+  dong?: string;
+  from?: string;
+  to?: string;
+  month?: string;
 }
 
 export const graphGuApi = async ({
@@ -43,8 +52,14 @@ export const graphGuApi = async ({
   from,
   to,
 }: GraphGuAPIParams): Promise<GraphGuApiResponse> => {
+  const params: Record<string, string> = { gu };
+
+  if (dong) params.dong = dong;
+  if (from) params.from = from;
+  if (to) params.to = to;
+
   const response = await fetchInstance.get<GraphGuApiResponse>(GRAPH_GU_API_PATH(gu), {
-    params: { gu, dong, from, to },
+    params,
   });
   return response.data;
 };
