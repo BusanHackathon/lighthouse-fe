@@ -25,7 +25,6 @@ export const refreshTokenApi = async ({
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      refreshToken: refreshToken,
     },
     body: JSON.stringify({ refreshToken }),
   });

@@ -8,11 +8,20 @@ interface SubstituteCompensationsApiResponse {
   momchange: number;
 }
 
-export const substituteCompensationsApi = async (): Promise<
-  SubstituteCompensationsApiResponse[]
-> => {
+export interface SubstituteCompensationsAPIParams {
+  from: string;
+  to: string;
+}
+
+export const substituteCompensationsApi = async ({
+  from,
+  to,
+}: SubstituteCompensationsAPIParams): Promise<SubstituteCompensationsApiResponse[]> => {
   const response = await fetchInstance.get<SubstituteCompensationsApiResponse[]>(
     SUBSTITUTE_COMPENSATIONS_API_PATH,
+    {
+      params: { from, to },
+    },
   );
 
   return response.data;

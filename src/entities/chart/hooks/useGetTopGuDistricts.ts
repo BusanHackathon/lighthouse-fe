@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { TOP_GU_DISTRICTS_API_PATH, topGuDistrictsApi } from '../apis';
+import { TOP_GUS_API_PATH, type TopGusAPIParams, topGusApi } from '../apis';
 
-export const TopGuDistrictsQueryKey = [TOP_GU_DISTRICTS_API_PATH];
+export const TopGuDistrictsQueryKey = [TOP_GUS_API_PATH];
 
-export const useGetTopGuDistricts = () => {
+export const useGetTopGuDistricts = ({ month, limit }: TopGusAPIParams) => {
   return useQuery({
     queryKey: TopGuDistrictsQueryKey,
-    queryFn: topGuDistrictsApi,
+    queryFn: () => topGusApi({ month, limit }),
   });
 };
