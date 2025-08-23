@@ -25,18 +25,24 @@ export const SizePriceSection = () => {
     };
   };
 
-  const handleSizeBandChange = (sizeBand: 'ALL' | 'SMALL' | 'MEDIUM' | 'LARGE' | 'X_LARGE') => {
-    setSelectedSizeBand(sizeBand);
+  const handleSizeBandChange = (sizeBand: string) => {
+    setSelectedSizeBand(sizeBand as 'ALL' | 'SMALL' | 'MEDIUM' | 'LARGE' | 'X_LARGE');
   };
 
   const { data: sizePriceData, isLoading } = useGetSizePrice({
     ...getApiParams(),
-    limit: 12,
     sizeBand: selectedSizeBand,
+    limit: 12,
   });
 
   if (!sizePriceData) {
-    return <div>데이터가 없습니다.</div>;
+    return (
+      <div className='mx-auto h-screen w-full max-w-7xl rounded-lg bg-white px-15 shadow-[0px_4px_30px_0px_#0000001A]'>
+        <div className='flex h-full w-full items-center justify-center'>
+          <Spinner />
+        </div>
+      </div>
+    );
   }
 
   const rawData = sizePriceData.data || [];
@@ -44,8 +50,10 @@ export const SizePriceSection = () => {
   // API 응답을 차트 데이터로 변환
   const chartData =
     rawData?.map((item) => ({
-      month: `${item.month.year}-${item.month.month}`,
-      cases: item.baseIndex,
+      month: `${item.month.split('-')[1]}월`,
+      year: item.month.split('-')[0],
+      baseIndex: item.baseIndex,
+      changeRate: item.changeRate,
     })) || [];
 
   const handleYearChange = (year: string) => {
@@ -54,8 +62,10 @@ export const SizePriceSection = () => {
 
   if (isLoading) {
     return (
-      <div className='flex h-full w-full items-center justify-center'>
-        <Spinner />
+      <div className='mx-auto h-screen w-full max-w-7xl rounded-lg bg-white px-15 shadow-[0px_4px_30px_0px_#0000001A]'>
+        <div className='flex h-full w-full items-center justify-center'>
+          <Spinner />
+        </div>
       </div>
     );
   }

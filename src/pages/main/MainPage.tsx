@@ -2,12 +2,13 @@ import { useRef } from 'react';
 
 import {
   AlternativeSection,
-  ChartSection,
   InputSection,
   LandlordPropertySection,
   LandlordReliabilitySection,
   MapSection,
   RiskAnalysisSummarySection,
+  SizePriceSection,
+  SubstituteCompensationsSection,
 } from '@/features';
 
 export default function MainPage() {
@@ -20,7 +21,8 @@ export default function MainPage() {
         <MapSection />
       </div>
       <RiskAnalysisSummarySection ref={riskAnalysisRef} />
-      <ChartSection />
+      <SubstituteCompensationsSection />
+      <SizePriceSection />
       <LandlordReliabilitySection />
       <LandlordPropertySection />
       <AlternativeSection />
