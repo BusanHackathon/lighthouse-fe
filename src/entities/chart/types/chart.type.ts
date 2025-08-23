@@ -19,3 +19,8 @@ export type SubstituteCompensationsChart = {
   month: string;
   cases: number;
 };
+
+export type SizePriceChart = {
+  month: string;
+  cases: number;
+};
