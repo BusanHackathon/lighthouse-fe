@@ -4,3 +4,12 @@ export type Property = {
   buildingName: string;
   address: string;
 };
+
+export type AlternativeProperty = {
+  placeId: number;
+  address: string;
+  addressDetail: string | null;
+  houseType: string;
+  riskScore: number;
+  riskGrade: string;
+};
