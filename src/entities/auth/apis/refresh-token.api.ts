@@ -1,4 +1,4 @@
-import { BASE_URL } from '@/shared';
+import { fetchInstance } from '@/shared';
 
 export const REFRESH_TOKEN_API_PATH = () => '/api/auth/refresh';
 
@@ -7,32 +7,16 @@ interface RefreshTokenApiRequest {
 }
 
 interface RefreshTokenApiResponse {
-  data: {
-    message: string;
-    newAccessToken: string;
-  };
-  status: string;
-  serverDateTime: string;
-  errorCode: string | null;
-  errorMessage: string | null;
+  message: string;
+  newAccessToken: string;
 }
 
 export const refreshTokenApi = async ({
   refreshToken,
 }: RefreshTokenApiRequest): Promise<RefreshTokenApiResponse> => {
-  // CORS 문제를 우회하기 위해 fetch API 직접 사용
-  const response = await fetch(`${BASE_URL}/api/auth/refresh`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ refreshToken }),
+  const response = await fetchInstance.post<RefreshTokenApiResponse>(REFRESH_TOKEN_API_PATH(), {
+    refreshToken,
   });
 
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-
-  const data = await response.json();
-  return data;
+  return response.data;
 };
