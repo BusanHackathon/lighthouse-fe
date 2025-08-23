@@ -10,7 +10,7 @@ export const SubstituteCompensationsQueryKey = [SUBSTITUTE_COMPENSATIONS_API_PAT
 
 export const useGetSubstituteCompensations = ({ from, to }: SubstituteCompensationsAPIParams) => {
   return useQuery({
-    queryKey: SubstituteCompensationsQueryKey,
+    queryKey: [...SubstituteCompensationsQueryKey, from, to],
     queryFn: () => substituteCompensationsApi({ from, to }),
   });
 };

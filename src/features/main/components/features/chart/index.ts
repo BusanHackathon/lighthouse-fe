@@ -1,3 +1,3 @@
-export { ChartBox } from './ChartBox';
-export { RiskChartBox } from './RiskChartBox';
-export { RiskFactorsBox } from './RiskFactorsBox';
+export * from './SubstituteCompensationsChartBox';
+export * from './RiskChartBox';
+export * from './RiskFactorsBox';
