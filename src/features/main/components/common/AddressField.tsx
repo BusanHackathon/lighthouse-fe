@@ -1,16 +1,21 @@
 import DaumPostcode from 'react-daum-postcode';
 import { useFormContext } from 'react-hook-form';
 
+import { MapPin } from 'lucide-react';
+
 import {
+  Button,
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/shared/components/ui/dialog';
-import { MapPin } from 'lucide-react';
-
-import { Button, FormField, FormItem, FormLabel, FormMessage, Input } from '@/shared';
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
+} from '@/shared';
 
 import { FORM_FIELDS, LABEL_TEXTS, PLACEHOLDER_TEXTS } from '../../constants';
 import { useAddressSearch, useKakaoAddressSearch } from '../../hooks';
@@ -54,7 +59,7 @@ export const AddressField = () => {
 
           <Dialog open={isOpen} onOpenChange={closeSearch}>
             <DialogContent className='p-0 sm:max-w-md'>
-              <DialogHeader className='px-6 pt-6 pb-1'>
+              <DialogHeader className='flex items-start px-6 pt-6 pb-1'>
                 <DialogTitle>주소 검색</DialogTitle>
                 <DialogDescription>주소를 검색하여 선택해주세요.</DialogDescription>
               </DialogHeader>
