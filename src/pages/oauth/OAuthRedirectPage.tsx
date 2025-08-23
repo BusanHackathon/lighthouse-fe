@@ -35,7 +35,6 @@ export default function OAuthRedirectPage() {
 
   useEffect(() => {
     if (data?.refreshToken) {
-      console.log('RefreshToken 발급 성공:', data.refreshToken);
       authStorage.refreshToken.set(data.refreshToken);
       refreshTokenMutate();
     }
