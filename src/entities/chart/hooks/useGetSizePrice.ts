@@ -2,8 +2,6 @@ import { useQuery } from '@tanstack/react-query';
 
 import { SIZE_PRICE_API_PATH, type SizePriceAPIParams, sizePriceApi } from '../apis';
 
-export const SizePriceQueryKey = [SIZE_PRICE_API_PATH];
-
 export const useGetSizePrice = ({
   sizeBand = 'ALL',
   from = '2024-01',
@@ -11,7 +9,7 @@ export const useGetSizePrice = ({
   limit = 12,
 }: SizePriceAPIParams) => {
   return useQuery({
-    queryKey: SizePriceQueryKey,
+    queryKey: [SIZE_PRICE_API_PATH, { sizeBand, from, to, limit }],
     queryFn: () => sizePriceApi({ sizeBand, from, to, limit }),
   });
 };

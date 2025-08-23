@@ -22,5 +22,7 @@ export type SubstituteCompensationsChart = {
 
 export type SizePriceChart = {
   month: string;
-  cases: number;
+  year: string;
+  baseIndex: number;
+  changeRate: number;
 };

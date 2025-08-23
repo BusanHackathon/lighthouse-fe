@@ -2,19 +2,14 @@ import { fetchInstance } from '@/shared';
 
 export const SIZE_PRICE_API_PATH = '/api/graph/sizePriceIndex/series';
 
-interface SubstituteCompensationsApiData {
-  month: {
-    year: number;
-    month: string;
-    monthValue: number;
-    leapYear: boolean;
-  };
+interface SizePriceApiData {
+  month: string;
   baseIndex: number;
   changeRate: number;
 }
 
 export interface SizePriceApiResponse {
-  data: SubstituteCompensationsApiData[];
+  data: SizePriceApiData[];
   status: string;
   serverDateTime: string;
   errorCode: string | null;
