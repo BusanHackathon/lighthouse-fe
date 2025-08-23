@@ -18,10 +18,16 @@ export default function OAuthRedirectPage() {
     mutationFn: () => refreshTokenApi({ refreshToken: authStorage.refreshToken.get() }),
     onSuccess: (data) => {
       console.log('AccessToken 발급 성공:', data);
-      authStorage.accessToken.set(data.newAccessToken);
-      localStorage.setItem('accessToken', data.newAccessToken);
-      console.log('OAuthRedirectPage - Login completed successfully');
-      navigate(ROUTER_PATH.ROOT, { replace: true });
+
+      // newAccessToken이 유효한 값인지 확인 후 저장
+      if (data.newAccessToken && data.newAccessToken !== 'undefined') {
+        authStorage.accessToken.set(data.newAccessToken);
+        console.log('OAuthRedirectPage - Login completed successfully');
+        navigate(ROUTER_PATH.ROOT, { replace: true });
+      } else {
+        console.error('AccessToken이 유효하지 않습니다:', data.newAccessToken);
+        navigate(ROUTER_PATH.LOGIN, { replace: true });
+      }
     },
     onError: (error) => {
       console.error('AccessToken 발급 실패:', error);
