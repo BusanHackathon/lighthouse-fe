@@ -6,8 +6,6 @@ export * from './Needle';
 export * from './Pagination';
 export * from './AddressField';
 export * from './ScaleBandField';
-export * from './DetailAddressField';
-export * from './DepositField';
 export * from './RentTypeField';
 export * from './RiskInfo';
 export * from './DongChart';
