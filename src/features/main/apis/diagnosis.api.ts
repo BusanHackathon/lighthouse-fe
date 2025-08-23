@@ -1,35 +1,20 @@
-import type { Landlord, LandlordPlace, LandlordTrust, RiskSummary } from '@/entities';
 import { fetchInstance } from '@/shared';
 
-import type { HouseType } from '../types';
+import type { DiagnosisApiResponse } from '../store/useHouseData';
 
 export const DIAGNOSIS_API_PATH = '/api/diagnosis';
 
 interface DiagnosisApiRequest {
   address: string;
-  addressDetail: string;
-  houseType: HouseType;
-  deposit: number;
+  scale: string;
 }
 
-interface DiagnosisApiResponse {
-  riskSummary: RiskSummary;
-  landlord: Landlord;
-  landlordTrust: LandlordTrust;
-  landlordPlaces: LandlordPlace[];
-}
-
-export const diagnosisApi = async ({
-  address,
-  addressDetail,
-  houseType,
-  deposit,
-}: DiagnosisApiRequest) => {
-  const response = await fetchInstance.post<DiagnosisApiResponse>(DIAGNOSIS_API_PATH, {
-    address,
-    addressDetail,
-    houseType,
-    deposit,
+export const diagnosisApi = async ({ address, scale }: DiagnosisApiRequest) => {
+  const response = await fetchInstance.get<DiagnosisApiResponse>(DIAGNOSIS_API_PATH, {
+    params: {
+      address,
+      scale,
+    },
   });
 
   return response.data;

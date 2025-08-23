@@ -1,32 +1,58 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import type { Landlord, LandlordPlace, LandlordTrust, RiskSummary } from '@/entities';
-
-export type HouseDiagnosisData = {
-  riskSummary: RiskSummary;
-  landlord: Landlord;
-  landlordTrust: LandlordTrust;
-  landlordPlaces: LandlordPlace[];
+// API 응답 데이터 타입
+export type DiagnosisData = {
+  riskSummary: {
+    score: number;
+    grade: string;
+    factors: Array<{
+      name: string;
+      percent: number;
+    }>;
+  };
+  landlord: {
+    landlordId: number;
+    name: string;
+    normalizedKey: string;
+    ownedCount: number;
+    createdAt: string;
+    updatedAt: string;
+  };
+  landlordTrust: {
+    trustScore: number;
+    accidentPts: number;
+    policyPts: number;
+    leveragePts: number;
+    grade: string;
+  };
+  landlordPlaces: Array<{
+    placeId: number;
+    address: string;
+    addressDetail: string;
+    houseType: string;
+    riskScore: number;
+    riskGrade: string;
+  }>;
 };
 
 // API 응답 형태
-export type ApiResponse = {
-  data: HouseDiagnosisData;
+export type DiagnosisApiResponse = {
+  data: DiagnosisData;
   status: string;
   serverDateTime: string;
-  errorCode: string | null;
-  errorMessage: string | null;
+  errorCode: string;
+  errorMessage: string;
 };
 
 type HouseDataState = {
   // 상태
-  diagnosisData: HouseDiagnosisData | null;
+  diagnosisData: DiagnosisData | null;
   isLoading: boolean;
   error: string | null;
 
   // 액션
-  setDiagnosisData: (data: HouseDiagnosisData | ApiResponse) => void;
+  setDiagnosisData: (data: DiagnosisData | DiagnosisApiResponse) => void;
   clearDiagnosisData: () => void;
   resetState: () => void;
   setLoading: (loading: boolean) => void;
@@ -42,7 +68,7 @@ export const useHouseData = create<HouseDataState>()(
       error: null,
 
       // 액션들
-      setDiagnosisData: (data: HouseDiagnosisData | ApiResponse) => {
+      setDiagnosisData: (data: DiagnosisData | DiagnosisApiResponse) => {
         // API 응답 형태인지 확인하고 적절히 처리
         const processedData = 'data' in data ? data.data : data;
         set({ diagnosisData: processedData });

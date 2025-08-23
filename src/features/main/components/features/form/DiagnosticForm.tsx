@@ -9,14 +9,8 @@ import { Button, Form } from '@/shared';
 import { diagnosisApi } from '../../../apis';
 import { type SearchAddressType, searchAddressSchema } from '../../../model';
 import { useHouseData } from '../../../store';
-import type { HouseType } from '../../../types';
-import {
-  AddressField,
-  DepositField,
-  DetailAddressField,
-  HouseTypeField,
-  RentTypeField,
-} from '../../common';
+import { extractDongAddress } from '../../../utils/address-utils';
+import { AddressField, ScaleBandField } from '../../common';
 
 type Props = {
   scrollToRiskAnalysis: RefObject<HTMLDivElement>;
@@ -29,20 +23,20 @@ export const DiagnosticForm = ({ scrollToRiskAnalysis }: Props) => {
     resolver: zodResolver(searchAddressSchema),
     defaultValues: {
       address: '',
-      houseType: '',
-      detailAddress: '',
-      deposit: 0,
+      scale: '',
     },
   });
 
   const { mutate: diagnosisMutate } = useMutation({
-    mutationFn: (data: SearchAddressType) =>
-      diagnosisApi({
-        address: data.address,
-        addressDetail: data.detailAddress,
-        houseType: data.houseType as HouseType,
-        deposit: data.deposit,
-      }),
+    mutationFn: (data: SearchAddressType) => {
+      // 전체 주소에서 동까지만 추출
+      const dongAddress = extractDongAddress(data.address);
+
+      return diagnosisApi({
+        address: dongAddress, // 동까지만 서버에 전송
+        scale: data.scale, // 규모 정보 전송
+      });
+    },
     onSuccess: (data) => {
       setDiagnosisData(data);
 
@@ -77,10 +71,7 @@ export const DiagnosticForm = ({ scrollToRiskAnalysis }: Props) => {
         <div className='flex w-4/5 flex-col gap-2'>
           <div className='flex w-full flex-col gap-5'>
             <AddressField />
-            <HouseTypeField />
-            <DetailAddressField />
-            <RentTypeField />
-            <DepositField />
+            <ScaleBandField />
           </div>
           <div className='py-10'>
             <Button className='w-full' onClick={form.handleSubmit(onSubmit)}>

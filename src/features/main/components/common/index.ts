@@ -5,7 +5,7 @@ export * from './LegendLine';
 export * from './Needle';
 export * from './Pagination';
 export * from './AddressField';
-export * from './HouseTypeField';
+export * from './ScaleBandField';
 export * from './DetailAddressField';
 export * from './DepositField';
 export * from './RentTypeField';
