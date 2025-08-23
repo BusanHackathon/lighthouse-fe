@@ -51,12 +51,14 @@ export const graphGuApi = async ({
   dong,
   from,
   to,
+  month,
 }: GraphGuAPIParams): Promise<GraphGuApiResponse> => {
   const params: Record<string, string> = { gu };
 
   if (dong) params.dong = dong;
   if (from) params.from = from;
   if (to) params.to = to;
+  if (month) params.month = month;
 
   const response = await fetchInstance.get<GraphGuApiResponse>(GRAPH_GU_API_PATH(gu), {
     params,

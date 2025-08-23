@@ -3,9 +3,10 @@ import { useState } from 'react';
 import { useGetGraphGu } from '@/entities';
 import { Button } from '@/shared';
 
+import { DongChart } from '../../common/DongChart';
+
 type Props = {
   selectedGu?: string;
-  selectedMonth?: string;
 };
 
 type DongData = {
@@ -15,7 +16,7 @@ type DongData = {
   riskScoreAvg: number;
 };
 
-export const GraphGuBox = ({ selectedGu, selectedMonth }: Props) => {
+export const GraphGuBox = ({ selectedGu }: Props) => {
   const [selectedDong, setSelectedDong] = useState<string | null>(null);
 
   // 선택된 구의 동 데이터 가져오기
@@ -25,7 +26,6 @@ export const GraphGuBox = ({ selectedGu, selectedMonth }: Props) => {
     error,
   } = useGetGraphGu({
     gu: selectedGu || '',
-    month: selectedMonth || '2024-08',
   });
 
   const selectDong = (dongName: string) => {
@@ -79,6 +79,17 @@ export const GraphGuBox = ({ selectedGu, selectedMonth }: Props) => {
   // regionDong만 추출하여 배열 생성
   const dongNameArray: string[] = processedDongs.map((dong) => dong.regionDong);
 
+  // 선택된 동의 차트 데이터 생성
+  const selectedDongData = selectedDong
+    ? processedDongs
+        .filter((dong) => dong.regionDong === selectedDong)
+        .map((dong) => ({
+          month: actualData?.month || '',
+          divergencePct: Math.abs(dong.divergencePct), // 절댓값 적용
+          regionDong: dong.regionDong,
+        }))
+    : [];
+
   return (
     <div className='w-full'>
       <div className='mb-4'>
@@ -107,8 +118,7 @@ export const GraphGuBox = ({ selectedGu, selectedMonth }: Props) => {
 
       {selectedDong && (
         <div className='rounded-lg border border-gray-200 p-4'>
-          <h4 className='mb-2 text-lg font-semibold text-gray-900'>{selectedDong} 선택됨</h4>
-          <p className='text-sm text-gray-600'>여기에 {selectedDong}의 차트가 표시될 예정입니다.</p>
+          <DongChart data={selectedDongData} selectedDong={selectedDong} />
         </div>
       )}
     </div>
