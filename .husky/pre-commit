@@ -2,6 +2,8 @@ echo "let's check the code! =^ . ｡.^="
 
 pnpm lint-staged
 
+pnpm run lint:fix
+
 echo "🎉 Formatting Test completed!"
 
 pnpm run tsc
