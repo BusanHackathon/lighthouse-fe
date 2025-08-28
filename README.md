@@ -1,69 +1,32 @@
-# React + TypeScript + Vite
+# Lighthouse FE 💡
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Lighthouse**는 DIVE 2025 2nd Global Data Hackathon에서 제작한 **전세 사기 예방을 위한 위험도 분석 플랫폼**입니다. 계약 전 위험 요소를 사전에 분석하여, 세입자와 공인중개사 모두가 신뢰할 수 있는 안전한 전세 거래 환경을 만드는 것을 목표로 합니다.
 
-Currently, two official plugins are available:
+## ✨ 주요 기능 (Key Features)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Lighthouse는 **세입자(B2C)와 공인중개사(B2B)**, 두 사용자 그룹을 위한 맞춤형 기능을 제공합니다.
 
-## Expanding the ESLint configuration
+### 🏠 세입자용 기능
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **전세 계약 위험도 진단**: 주소, 전세금 등 간단한 정보 입력만으로 LTV, 지역별 대위변제율 등을 종합 분석하여 **위험 점수(0-100)와 등급**을 제공합니다.
+- **임대인 신뢰도 등급**: 대위변제 이력, 소유 주택 수 등을 바탕으로 임대인의 신뢰도를 **파도 등급(A~D)으로 시각화**하여 제공합니다.
+- **지역 리스크 지도 (히트맵)**: 위험 매물 밀집도, 전세가율 분포 등을 지도로 시각화하여 지역의 전반적인 위험도를 한눈에 파악할 수 있습니다.
+- **대체 매물 추천**: 분석 결과 위험도가 높은 매물일 경우, 더 안전한 대체 매물을 추천하여 사용자의 의사결정을 돕습니다.
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 🏢 공인중개사용 기능
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- **매물 안전 리포트 자동 생성**: 매물별 위험 점수, 임대인 등급, 핵심 위험 요인을 포함한 상세 보고서를 PDF/이미지 형태로 생성하여 고객에게 제공할 수 있습니다.
+- **계약 전 필수 체크리스트**: 등기부등본, 건축물대장의 핵심 요약 정보와 전세가율, 임대인 상태 등 계약 전 반드시 확인해야 할 사항을 체크리스트 형태로 제공합니다.
+- **확인·고지 이력 기록 (Evidence)**: 중개대상물 확인·설명서와 위험 고지 내역을 저장하고, 임대인·임차인·중개인이 함께 **전자서명**하여 법적 분쟁에 대비할 수 있는 증빙 자료를 생성 및 보관합니다.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🛠️ 기술 스택 (Tech Stack)
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+이 프로젝트는 다음과 같은 기술 스택으로 구성되어 있습니다.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+| Category | Technology | Description |
+| --- | --- | --- |
+| **Core** | React, TypeScript | 타입 안전성을 갖춘 컴포넌트 기반 UI 개발 |
+| **Styling & UI** | Tailwind CSS, shadcn/ui | Utility First 방식의 CSS와 Radix UI 기반의 재사용 가능한 컴포넌트 |
+| **State Management** | Zustand, React Query | 간결한 클라이언트 상태 및 강력한 서버 상태 관리 |
+| **Build Tool** | Vite | `esbuild`와 `Rollup`을 활용한 빠르고 효율적인 빌드 시스템 |
+| **Code Quality** | ESLint, Prettier, Husky | 코드 포맷팅, 린팅, Git Hooks를 통한 품질 자동화 |
